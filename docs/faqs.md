@@ -5,3 +5,5 @@ A: Access to the repositories are controlled from the builder platform interface
 
 Q: How to add contributors from partner side?
 A: Use the same mechanism mentioned above to manage access to the repository. If you are a partner trying to access these repos, reach out your assigned AWS PSA.
+
+![Under Construction](/images/under_construction.jpeg)
