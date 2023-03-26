@@ -13,11 +13,11 @@
     },
     {
         "Type" : "S3_BUCKET",
-        "Filter": "tcat-cfn-abi-aws-reference-code-"
+        "Filter": "tcat-cfn-abi-aws-reference-guide-"
     },
     {
         "Type" : "S3_BUCKET",
-        "Filter" : "cfn-abi-aws-reference-code-"
+        "Filter" : "cfn-abi-aws-reference-guide-"
     },
     {
         "Type" : "S3_BUCKET",

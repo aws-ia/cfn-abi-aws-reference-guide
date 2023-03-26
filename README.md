@@ -51,6 +51,41 @@ When you submit a PR, there are set of automatic tests and manual validations th
 6. **Publish** the code is then automatically published to the targets.
 
 
+#### Sample project layout
+
+```
+.
+├── CODEOWNERS
+├── CODE_OF_CONDUCT.md
+├── LICENSE
+├── NOTICE.txt
+├── README.md
+├── VERSION
+├── docs
+├── images
+├── lambda_functions
+│   └── source
+│       └── enable_integrations
+├── scripts
+│   ├── cleanup_config.json
+│   ├── cleanup_config.py
+├── submodules  ## ABI Modules
+│   └── cfn-abi-aws-securityhub
+│       ├── README.md
+│       ├── lambda_functions
+│       ├── scripts
+│       └── templates
+└── templates  ## Partner build templates
+    ├── abi-enable-partner1-securityhub-integration.yaml
+    ├── enable_integrations
+    │   └── partner1-enable-integrations.yaml
+    ├── functions
+    │   └── source
+    └── scripts
+        └── sample_userdata.sh
+
+21 directories, 37 files
+```
 #### How to get a GitHub repository
 
 Work with with your AWS PSA contact to request for a repository. Once the project is approved, an ABI standard repository is created and invitation is shared with you. 
