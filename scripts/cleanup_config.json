@@ -1,0 +1,34 @@
+[
+    {
+        "Type": "STACK",
+        "Filter" : "tCaT-enable-securityhub-ssm-"
+    },
+    {
+        "Type" : "STACK",
+        "Filter": "tCaT-stage-sh-content-local-"
+    },
+    {
+        "Type" : "STACK",
+        "Filter": "tCaT-enable-securityhub-in-org-ssm-"
+    },
+    {
+        "Type" : "S3_BUCKET",
+        "Filter": "tcat-cfn-abi-aws-reference-code-"
+    },
+    {
+        "Type" : "S3_BUCKET",
+        "Filter" : "cfn-abi-aws-reference-code-"
+    },
+    {
+        "Type" : "S3_BUCKET",
+        "Filter" : "sra-sh-stage-" 
+    },
+    {
+        "Type" : "S3_BUCKET",
+        "Filter" : "sra-sh-staging-"
+    },
+    {
+        "Type" : "SSM_PARAMETER",
+        "Filter" : "/sra/sh/"
+    }
+]

@@ -1,0 +1,243 @@
+########################################################################
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+########################################################################
+AWSTemplateFormatVersion: 2010-09-09
+Description:
+  This template simulates a sample partner integration by leveraging an ABI module.
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: General Properties
+        Parameters:
+          - pSRASolutionVersion
+          - pSRASourceS3BucketName
+          - pSRAStagingS3KeyPrefix
+          - pSRAS3BucketRegion
+          - pSRAAlarmEmail
+
+      - Label:
+          default: Partner Integration details
+        Parameters:
+          - pProductArn
+
+      - Label:
+          default: SecurityHub Configuration Properties
+        Parameters:
+          - pDisableSecurityHub
+          - pEnableSecurityBestPracticesStandard
+          - pEnableCISStandard
+          - pCISStandardVersion
+          - pEnablePCIStandard
+          - pRegionLinkingMode
+          - pControlTowerRegionsOnly
+          - pEnabledRegions
+
+      - Label:
+          default: General Lambda Function Properties
+        Parameters:
+          - pCreateLambdaLogGroup
+          - pLambdaLogGroupRetention
+          - pLambdaLogGroupKmsKey
+          - pLambdaLogLevel
+
+      - Label:
+          default: EventBridge Rule Properties
+        Parameters:
+          - pComplianceFrequency
+
+    ParameterLabels:
+      pProductArn:
+        default: ARN of partner integration to turn on in AWS Security Hub
+      pCISStandardVersion:
+        default: CIS Standard Version
+      pComplianceFrequency:
+        default: Frequency to Check for Organizational Compliance
+      pControlTowerRegionsOnly:
+        default: Control Tower Regions Only
+      pCreateLambdaLogGroup:
+        default: Create Lambda Log Group
+      pDisableSecurityHub:
+        default: Disable Security Hub
+      pEnableCISStandard:
+        default: Enable CIS Standard
+      pEnablePCIStandard:
+        default: Enable PCI Standard
+      pEnableSecurityBestPracticesStandard:
+        default: Enable AWS Foundational Security Best Practices Standard
+      pEnabledRegions:
+        default: (Optional) Enabled Regions
+      pLambdaLogGroupKmsKey:
+        default: (Optional) Lambda Logs KMS Key
+      pLambdaLogGroupRetention:
+        default: Lambda Log Group Retention
+      pLambdaLogLevel:
+        default: Lambda Log Level
+      pRegionLinkingMode:
+        default: Region Linking Mode
+      pSRAAlarmEmail:
+        default: (Optional) SRA Alarm Email
+      pSRASolutionVersion:
+        default: SRA Solution Version
+      pSRASourceS3BucketName:
+        default: SRA Source S3 Location
+      pSRAStagingS3KeyPrefix:
+        default: SRA Source Key
+      pSRAS3BucketRegion:
+        default: SRA Bucket Region
+
+Parameters:
+  pProductArn:
+    AllowedPattern: '^$|^arn:(aws[a-zA-Z-]*){1}:securityhub:[a-z0-9-]+:(\s*|\d{12}):product/[a-zA-Z0-9-.]*/[a-zA-Z0-9-.]*$'
+    ConstraintDescription: 'Key ARN example:  arn:aws:securityhub:us-east-1::product/threatmodeler-software/threatmodeler'
+    Default: ''
+    Description:
+      A REQUIRED AWS Security Hub ProductARN to enable partner integration. 
+    Type: String
+  pCISStandardVersion:
+    AllowedValues: [1.2.0, 1.4.0]
+    Default: 1.4.0
+    Description: CIS Standard Version
+    Type: String
+  pComplianceFrequency:
+    ConstraintDescription: Compliance Frequency must be a number between 1 and 30, inclusive.
+    Default: 7
+    Description: Frequency (in days between 1 and 30, default is 7) to check organizational compliance by invoking the Lambda Function.
+    MinValue: 1
+    MaxValue: 30
+    Type: Number
+  pControlTowerRegionsOnly:
+    AllowedValues: ['true', 'false']
+    Default: 'true'
+    Description: Only enable in the Control Tower governed regions
+    Type: String
+  pCreateLambdaLogGroup:
+    AllowedValues: ['true', 'false']
+    Default: 'false'
+    Description:
+      Indicates whether a CloudWatch Log Group should be explicitly created for the Lambda function, to allow for setting a Log Retention and/or KMS
+      Key for encryption.
+    Type: String
+  pDisableSecurityHub:
+    AllowedValues: ['true', 'false']
+    Default: 'false'
+    Description: Update to 'true' to disable Security Hub in all accounts and regions before deleting the stack.
+    Type: String
+  pEnableCISStandard:
+    AllowedValues: ['true', 'false']
+    Default: 'false'
+    Description: Indicates whether to enable the CIS AWS Foundations Benchmark Standard.
+    Type: String
+  pEnabledRegions:
+    AllowedPattern: '^$|^([a-z0-9-]{1,64})$|^(([a-z0-9-]{1,64},)*[a-z0-9-]{1,64})$'
+    ConstraintDescription:
+      Only lowercase letters, numbers, and hyphens ('-') allowed. (e.g. us-east-1) Additional AWS regions can be provided, separated by commas. (e.g.
+      us-east-1,ap-southeast-2)
+    Default: ''
+    Description: (Optional) Enabled regions (AWS regions, separated by commas). Leave blank to enable all regions.
+    Type: String
+  pEnablePCIStandard:
+    AllowedValues: ['true', 'false']
+    Default: 'false'
+    Description: Indicates whether to enable the Payment Card Industry Data Security Standard (PCI DSS).
+    Type: String
+  pEnableSecurityBestPracticesStandard:
+    AllowedValues: ['true', 'false']
+    Default: 'true'
+    Description: Indicates whether to enable the AWS Foundational Security Best Practices Standard.
+    Type: String
+  pLambdaLogGroupKmsKey:
+    AllowedPattern: '^$|^arn:(aws[a-zA-Z-]*){1}:kms:[a-z0-9-]+:\d{12}:key\/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$'
+    ConstraintDescription: 'Key ARN example:  arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab'
+    Default: ''
+    Description:
+      (Optional) KMS Key ARN to use for encrypting the Lambda logs data. If empty, encryption is enabled with CloudWatch Logs managing the server-side
+      encryption keys.
+    Type: String
+  pLambdaLogGroupRetention:
+    AllowedValues: [1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 3653]
+    Default: 14
+    Description: Specifies the number of days you want to retain log events
+    Type: String
+  pLambdaLogLevel:
+    AllowedValues: [INFO, ERROR, DEBUG]
+    Default: INFO
+    Description: Lambda Function Logging Level
+    Type: String
+  pRegionLinkingMode:
+    AllowedValues: [SPECIFIED_REGIONS, ALL_REGIONS]
+    Default: SPECIFIED_REGIONS
+    Description:
+      Indicates whether to aggregate findings from all of the available Regions in the current partition. Also determines whether to automatically
+      aggregate findings from new Regions as Security Hub supports them and you opt into them.
+    Type: String
+  pSRAAlarmEmail:
+    AllowedPattern: '^$|^([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)$'
+    ConstraintDescription: Must be a valid email address.
+    Default: ''
+    Description: (Optional) Email address for receiving SRA alarms
+    Type: String
+  pSRASourceS3BucketName:
+    AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
+    Type: String
+    Default: aws-abi-gamma
+  pSRAStagingS3KeyPrefix:
+    AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
+    Type: String
+    Default: cfn-abi-aws-reference-guide
+  pSRAS3BucketRegion:
+    AllowedPattern: ^[a-z][a-z]-[a-z]*-[0-9]*$
+    Type: String
+    Default: us-east-1
+  pSRASolutionVersion:
+    AllowedValues: [v1.5]
+    Default: v1.5
+    Description: The SRA solution version. Used to trigger updates on the nested StackSets.
+    Type: String
+
+Resources:
+  rSecurityHubEnableInOrg:
+    Type: AWS::CloudFormation::Stack
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Properties:
+      TemplateURL: !Sub https://${pSRASourceS3BucketName}.s3.${pSRAS3BucketRegion}.${AWS::URLSuffix}/${pSRAStagingS3KeyPrefix}/submodules/cfn-abi-aws-securityhub/templates/sra-securityhub-enable-in-org-ssm.yaml
+      Parameters:
+        pSRASourceS3BucketName: aws-abi-gamma
+        pSRAStagingS3KeyPrefix: cfn-abi-aws-securityhub
+        pCISStandardVersion: !Ref pCISStandardVersion
+        pComplianceFrequency: !Ref pComplianceFrequency
+        pControlTowerRegionsOnly: !Ref pControlTowerRegionsOnly
+        pCreateLambdaLogGroup: !Ref pCreateLambdaLogGroup
+        pDisableSecurityHub: !Ref pDisableSecurityHub
+        pEnableCISStandard: !Ref pEnableCISStandard
+        pEnabledRegions: !Ref pEnabledRegions
+        pEnablePCIStandard: !Ref pEnablePCIStandard
+        pEnableSecurityBestPracticesStandard: !Ref pEnableSecurityBestPracticesStandard
+        pLambdaLogGroupKmsKey: !Ref pLambdaLogGroupKmsKey
+        pLambdaLogGroupRetention: !Ref pLambdaLogGroupRetention
+        pLambdaLogLevel: !Ref pLambdaLogLevel
+        pRegionLinkingMode: !Ref pRegionLinkingMode
+        pSRAAlarmEmail: !Ref pSRAAlarmEmail
+        pSRASolutionVersion: !Ref pSRASolutionVersion
+      Tags:
+        - Key: sra-solution
+          Value: !Ref pSRAStagingS3KeyPrefix
+
+  rEnablePartnerIntegration:
+    Type: AWS::CloudFormation::Stack
+    DeletionPolicy: Delete
+    DependsOn:
+      - "rSecurityHubEnableInOrg"
+    UpdateReplacePolicy: Delete
+    Properties:
+      TemplateURL: !Sub https://${pSRASourceS3BucketName}.s3.${pSRAS3BucketRegion}.${AWS::URLSuffix}/${pSRAStagingS3KeyPrefix}/templates/enable_integrations/partner1-enable-integrations.yaml 
+      Parameters:
+        pProductArn: !Ref pProductArn
+        pSRASourceS3BucketName: !Ref pSRASourceS3BucketName
+        pSRAStagingS3Key: !Ref pSRAStagingS3KeyPrefix
+      Tags:
+        - Key: sra-solution
+          Value: !Ref pSRAStagingS3KeyPrefix
