@@ -40,7 +40,7 @@ All the PRs will go through a set of auto validations built-in to the pipelines.
 
 ### Architecture
 
-[TBA]
+![ABI Architecture](images/abi-architecture.png)
 
 When you submit a PR, there are set of automatic tests and manual validations that are performed. Following are the series of events that happen after PR.
 1. **Static tests** are executed. The static tests include lint checkers and scan templates and code provided against a set of pre- and custom-defined security rules to identify potential vulnerabilities. Tools used are listed below.
@@ -66,6 +66,15 @@ You need to Accept the invitation to get access to the repository.
 * For Pilot, the existing modules are expected to operate only in AWS Control Tower environments. Hence, the modules provided as part of ABI should be deployed only in the ***Home Region of AWS Control Tower***.
 * Granting write permissions to GitHub repository is disabled by ABP when you add external contributors. This is required by AWS Security.
 * For Pilot, the GitHub repositories remain private and GitHub IDs will be added manually.
+
+## Cleanup Instructions
+
+[CLICK HERE](docs/cleanup-instructions.md) for additional instructions. 
+
+
+## Cost Considerations
+
+[CLICK HERE](docs/cost-considerations.md) for steps. 
 
 ## FAQs
 
