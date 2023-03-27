@@ -85,6 +85,7 @@ When you submit a PR, there are set of automatic tests and manual validations th
         └── sample_userdata.sh
 
 21 directories, 37 files
+
 ```
 #### How to get a GitHub repository
 
