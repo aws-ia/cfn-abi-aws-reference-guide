@@ -23,7 +23,7 @@ resources:
       - parameter_key: pSRASourceS3BucketName
         parameter_value: aws-abi-pilot
       - parameter_key: pSRAStagingS3KeyPrefix
-        parameter_value: cfn-abi-aws-cloudtrail
+        parameter_value: cfn-abi-aws-reference-guide
     deployment_targets:
       accounts:
         - [[MANAGEMENT-AWS-ACCOUNT-ID]]
