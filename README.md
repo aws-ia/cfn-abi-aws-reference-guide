@@ -96,6 +96,11 @@ You need to Accept the invitation to get access to the repository.
 
 [CLICK HERE](docs/how-to-build-abi-project.md) for steps. 
 
+#### ABI deployment modes
+
+* Launch the [CloudFormation Template in the Management Account](docs/launch-using-cloudformation.md).
+* Launch using [Customizations for Control Tower (CfCT)](docs/launch-using-cfct.md).
+
 ## Things to know
 
 * For Pilot, the existing modules are expected to operate only in AWS Control Tower environments. Hence, the modules provided as part of ABI should be deployed only in the ***Home Region of AWS Control Tower***.
@@ -114,6 +119,7 @@ You need to Accept the invitation to get access to the repository.
 ## FAQs
 
  [CLICK HERE](docs/faqs.md) for additional information. 
+
 
 
 
