@@ -51,7 +51,7 @@ Parameters:
   pSRASourceS3BucketName:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
     Type: String
-    Default: aws-abi-gamma
+    Default: aws-abi-pilot
   pSRAStagingS3Key:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
     Type: String

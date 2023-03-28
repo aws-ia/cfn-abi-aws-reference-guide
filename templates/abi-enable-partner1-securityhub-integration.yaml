@@ -182,7 +182,7 @@ Parameters:
   pSRASourceS3BucketName:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
     Type: String
-    Default: aws-abi-gamma
+    Default: aws-abi-pilot
   pSRAStagingS3KeyPrefix:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
     Type: String
@@ -205,7 +205,7 @@ Resources:
     Properties:
       TemplateURL: !Sub https://${pSRASourceS3BucketName}.s3.${pSRAS3BucketRegion}.${AWS::URLSuffix}/${pSRAStagingS3KeyPrefix}/submodules/cfn-abi-aws-securityhub/templates/sra-securityhub-enable-in-org-ssm.yaml
       Parameters:
-        pSRASourceS3BucketName: aws-abi-gamma
+        pSRASourceS3BucketName: aws-abi-pilot
         pSRAStagingS3KeyPrefix: cfn-abi-aws-securityhub
         pCISStandardVersion: !Ref pCISStandardVersion
         pComplianceFrequency: !Ref pComplianceFrequency
