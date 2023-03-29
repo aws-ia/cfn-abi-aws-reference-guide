@@ -1,33 +1,36 @@
 project:
-  name: update-me-to-project-repo-name
-  owner: quickstart@amazon.com
-  package_lambda: false
+  name: cfn-abi-aws-reference-guide
+  owner: vinjak@amazon.com
+  package_lambda: true
+  shorten_stack_name: true
+  s3_regional_buckets: false
   regions:
-  - ap-northeast-1
-  - ap-northeast-2
-  - ap-southeast-1
-  - ap-southeast-2
-  - eu-central-1
-  - eu-west-1
-  - sa-east-1
   - us-east-1
-  - us-west-1
-  - us-west-2
+
 tests:
-  sample:
+  launch-partner-solution:
     parameters:
-      Param1: 'Inputs to Stack'
-      # Examples: of other taskcat dynamic input parameters for more into see http://taskcat.io
-      #
-      #      AvailabilityZones: $[taskcat_genaz_3]
-      #      ByteValue: 1
-      #      PasswordA: $[taskcat_genpass_8A]
-      #      PasswordB: $[taskcat_genpass_32S]
-      #      RandomNumber: $[taskcat_random-numbers]
-      #      RandomString: $[taskcat_random-string]
-      #      StackName: TestStack
-      #      UUID: $[taskcat_genuuid]
-      #
+      pSRASourceS3BucketName: $[taskcat_autobucket]
+      pSRAStagingS3Key: $[taskcat_project_name]
+      pProductArn: arn:aws:securityhub:$[taskcat_current_region]::product/cloud-custodian/cloud-custodian
     regions:
-    - us-east-1
-    template: templates/sample-workload.template.yaml
+      - us-east-1
+    template: templates/abi-enable-partner1-securityhub-integration.yaml
+
+#  sample:
+#    parameters:
+#      Param1: 'Inputs to Stack'
+#      # Examples: of other taskcat dynamic input parameters for more into see http://taskcat.io
+#      #
+#      #      AvailabilityZones: $[taskcat_genaz_3]
+#      #      ByteValue: 1
+#      #      PasswordA: $[taskcat_genpass_8A]
+#      #      PasswordB: $[taskcat_genpass_32S]
+#      #      RandomNumber: $[taskcat_random-numbers]
+#      #      RandomString: $[taskcat_random-string]
+#      #      StackName: TestStack
+#      #      UUID: $[taskcat_genuuid]
+#      #
+#    regions:
+#    - us-east-1
+#    template: templates/sample-workload.template.yaml
