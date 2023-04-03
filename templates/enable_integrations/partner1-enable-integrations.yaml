@@ -1,0 +1,399 @@
+########################################################################
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+########################################################################
+AWSTemplateFormatVersion: '2010-09-09'
+Description:
+  Enable partner integration in Security Hub. An example integration.
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: Partner Integration details
+        Parameters:
+          - pProductArn
+      - Label:
+          default: Source location details
+        Parameters:
+          - pSRASourceS3BucketName
+          - pSRAStagingS3Key
+      - Label:
+          default: General Lambda Function Properties
+        Parameters:
+          - pEnablePartnerIntegrationFunctionName
+          - pCreateLambdaLogGroup
+          - pLambdaLogGroupRetention
+          - pLambdaLogGroupKmsKey
+    ParameterLabels:
+      pProductArn:
+        default: ARN of partner integration to turn on in AWS Security Hub
+      pSRASourceS3BucketName:
+        default: S3 Bucket location where the lambda packages are available
+      pSRAStagingS3Key:
+        default: S3 Key Name - usually the project name
+      pEnablePartnerIntegrationFunctionName:
+        default: Enable Partner integrations - Lambda function name
+      pCreateLambdaLogGroup:
+        default: Create Lambda Log Group
+      pLambdaLogGroupKmsKey:
+        default: (Optional) Lambda Logs KMS Key
+      pLambdaLogGroupRetention:
+        default: Lambda Log Group Retention
+
+Parameters:
+  pProductArn:
+    AllowedPattern: '^$|^arn:(aws[a-zA-Z-]*){1}:securityhub:[a-z0-9-]+:(\s*|\d{12}):product/[a-zA-Z0-9-.]*/[a-zA-Z0-9-.]*$'
+    ConstraintDescription: 'Key ARN example:  arn:aws:securityhub:us-east-1::product/threatmodeler-software/threatmodeler'
+    Default: ''
+    Description:
+      A REQUIRED AWS Security Hub ProductARN to enable partner integration. 
+    Type: String
+  pSRASourceS3BucketName:
+    AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
+    Type: String
+    Default: aws-abi-pilot
+  pSRAStagingS3Key:
+    AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
+    Type: String
+    Default: cfn-abi-aws-reference-code
+  pEnablePartnerIntegrationFunctionName:
+    AllowedPattern: '^[\w-]{1,64}$'
+    ConstraintDescription: Max 64 alphanumeric characters. Also special characters supported [_, -]
+    Default: partner-cc-enable-sh-integration-function
+    Description: Lambda function name for creating Control Tower account SSM parameters.
+    Type: String
+  pCreateLambdaLogGroup:
+    AllowedValues: ['true', 'false']
+    Default: 'false'
+    Description:
+      Indicates whether a CloudWatch Log Group should be explicitly created for the Lambda function, to allow for setting a Log Retention and/or KMS
+      Key for encryption.
+    Type: String
+  pLambdaLogGroupKmsKey:
+    AllowedPattern: '^$|^arn:(aws[a-zA-Z-]*){1}:kms:[a-z0-9-]+:\d{12}:key\/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$'
+    ConstraintDescription: 'Key ARN example:  arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab'
+    Default: ''
+    Description:
+      (Optional) KMS Key ARN to use for encrypting the Lambda logs data. If empty, encryption is enabled with CloudWatch Logs managing the server-side
+      encryption keys.
+    Type: String
+  pLambdaLogGroupRetention:
+    AllowedValues: [1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 3653]
+    Default: 14
+    Description: Specifies the number of days you want to retain log events
+    Type: String
+
+Conditions:
+  cCreateLambdaLogGroup: !Equals [!Ref pCreateLambdaLogGroup, 'true']
+  cUsingKmsKey: !Not [!Equals [!Ref pLambdaLogGroupKmsKey, '']]
+
+Resources:
+  rEnableIntegrationCustomResource:
+    Type: Custom::LambdaCustomResource
+    Version: '1.0'
+    Properties:
+      ServiceToken: !GetAtt rEnableIntegrationFunction.Arn
+
+  rEnableIntegrationFunction:
+    DependsOn: rCopyZips
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W58
+            reason: Lambda role provides access to CloudWatch Logs
+          - id: W89
+            reason: Lambda does not need to communicate with VPC resources.
+          - id: W92
+            reason: Lambda does not need reserved concurrent executions.
+      checkov:
+        skip:
+          - id: CKV_AWS_115
+            comment: Lambda does not need reserved concurrent executions.
+          - id: CKV_AWS_116
+            comment: DLQ not needed, as Lambda function only triggered by CloudFormation events.
+          - id: CKV_AWS_117
+            comment: Lambda does not need to communicate with VPC resources.
+          - id: CKV_AWS_173
+            comment: Environment variables are not sensitive.
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Ref pEnablePartnerIntegrationFunctionName
+      Description: Enable a partner Integration in AWS Security Hub
+      Handler: enable_integration.handler
+      Role: !GetAtt rEnableIntegrationRole.Arn
+      Runtime: python3.9
+      Timeout: 60
+      Environment:
+        Variables:
+          PRODUCT_ARN: !Ref pProductArn
+      Tags:
+        - Key: abi-solution
+          Value: !Ref pSRAStagingS3Key
+      Code:
+        S3Bucket: !Ref pSRASourceS3BucketName
+        S3Key: !Sub ${pSRAStagingS3Key}/lambda_functions/packages/enable_integrations/lambda.zip
+
+  rEnableIntegrationLogGroup:
+    Condition: cCreateLambdaLogGroup
+    DeletionPolicy: Retain
+    Type: AWS::Logs::LogGroup
+    UpdateReplacePolicy: Retain
+    Properties:
+      KmsKeyId: !If
+        - cUsingKmsKey
+        - !Ref pLambdaLogGroupKmsKey
+        - !Ref AWS::NoValue
+      RetentionInDays: !Ref pLambdaLogGroupRetention
+
+  rEnableIntegrationRole:
+    Type: AWS::IAM::Role
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W11
+            reason: Allow * in resource when required
+          - id: W28
+            reason: The role name is defined to identify automation resources
+    Properties:
+      Description: Role for Enable Integration Lambda function
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRole
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Tags:
+        - Key: abi-solution
+          Value: !Ref pSRAStagingS3Key
+      Policies:
+        - PolicyName: security-hub-permissions
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Sid: SecurityHubPermissions
+                Effect: Allow
+                Action:
+                  - securityhub:DisableImportFindingsForProduct
+                  - securityhub:EnableImportFindingsForProduct
+                  - securityhub:ListEnabledProductsForImport
+                  - securityhub:DescribeProducts
+                Resource: !Sub arn:${AWS::Partition}:securityhub:${AWS::Region}:${AWS::AccountId}:hub/default
+        - PolicyName: CloudWatchLogGroup
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Sid: CloudWatchLogs
+                Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${pEnablePartnerIntegrationFunctionName}:log-stream:*
+
+  rABIStagingS3Bucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W35
+            reason: S3 access logs intentionally not enabled
+      checkov:
+        skip:
+          - id: CKV_AWS_18
+            comment: S3 access logs intentionally not enabled
+    Properties:
+      BucketName: !Sub ${pSRAStagingS3Key}-${AWS::AccountId}-${AWS::Region}
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerPreferred
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: True
+        BlockPublicPolicy: True
+        IgnorePublicAcls: True
+        RestrictPublicBuckets: True
+      Tags:
+        - Key: abi-solution
+          Value: !Ref pSRAStagingS3Key
+      VersioningConfiguration:
+        Status: Enabled
+
+  rABIStagingS3BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: F16
+            reason: GetObject is restricted to AWS account only
+    Properties:
+      Bucket: !Ref rABIStagingS3Bucket
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Sid: AllowDeploymentRoleGetObject
+            Effect: Allow
+            Action: s3:GetObject
+            Principal: '*'
+            Resource: !Sub arn:${AWS::Partition}:s3:::${rABIStagingS3Bucket}/*
+          - Sid: DenyExternalPrincipals
+            Effect: Deny
+            Action: 's3:*'
+            Principal: '*'
+            Resource:
+              - !Sub arn:${AWS::Partition}:s3:::${rABIStagingS3Bucket}
+              - !Sub arn:${AWS::Partition}:s3:::${rABIStagingS3Bucket}/*
+            Condition:
+              StringNotEquals:
+                aws:PrincipalAccount: !Sub ${AWS::AccountId}
+          - Sid: SecureTransport
+            Effect: Deny
+            Action: 's3:*'
+            Principal: '*'
+            Resource:
+              - !Sub arn:${AWS::Partition}:s3:::${rABIStagingS3Bucket}
+              - !Sub arn:${AWS::Partition}:s3:::${rABIStagingS3Bucket}/*
+            Condition:
+              Bool:
+                aws:SecureTransport: False
+
+  rCopyZips:
+    Type: Custom::CopyZips
+    Properties:
+      ServiceToken: !GetAtt 'rCopyZipsFunction.Arn'
+      SourceBucket: !Ref 'pSRASourceS3BucketName'
+      DestBucket: !Ref 'rABIStagingS3Bucket'
+      Prefix: !Sub ${pSRAStagingS3Key}/
+      Objects:
+        - lambda_functions/packages/enable_integrations/lambda.zip
+        - templates/enable_integrations/partner1-enable-integrations.yaml
+
+  rCopyZipsRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Path: /
+      Policies:
+        - PolicyName: lambda-copier
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:GetObjectTagging
+                Resource:
+                  - !Sub 'arn:${AWS::Partition}:s3:::${pSRASourceS3BucketName}/'
+                  - !Sub 'arn:${AWS::Partition}:s3:::${pSRASourceS3BucketName}/${pSRAStagingS3Key}/*'
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                  - s3:DeleteObject
+                  - s3:PutObjectTagging
+                Resource:
+                  - !Sub 'arn:${AWS::Partition}:s3:::${rABIStagingS3Bucket}/'
+                  - !Sub 'arn:${AWS::Partition}:s3:::${rABIStagingS3Bucket}/${pSRAStagingS3Key}/*'
+              - Effect: Allow
+                Action:
+                  - s3:ListAllMyBuckets
+                Resource: '*'
+
+  rCopyZipsFunction:
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W58
+            reason: Lambda role provides access to CloudWatch Logs
+          - id: W89
+            reason: Lambda does not need to communicate with VPC resources.
+          - id: W92
+            reason: Lambda does not need reserved concurrent executions.
+      checkov:
+        skip:
+          - id: CKV_AWS_115
+            comment: Lambda does not need reserved concurrent executions.
+          - id: CKV_AWS_116
+            comment: DLQ not needed, as Lambda function only triggered by CloudFormation events.
+          - id: CKV_AWS_117
+            comment: Lambda does not need to communicate with VPC resources.
+    Type: AWS::Lambda::Function
+    Properties:
+      Description: Copies objects from a source S3 bucket to a destination
+      Handler: index.handler
+      Runtime: python3.9
+      MemorySize: 128
+      Role: !GetAtt 'rCopyZipsRole.Arn'
+      Timeout: 240
+      Code:
+        ZipFile: |
+          import json
+          import logging
+          import threading
+          import boto3
+          import cfnresponse
+          def copy_objects(source_bucket, dest_bucket, prefix, objects):
+              s3 = boto3.client('s3')
+              for o in objects:
+                  key = prefix + o
+                  copy_source = {
+                      'Bucket': source_bucket,
+                      'Key': key
+                  }
+                  print(('copy_source: %s' % copy_source))
+                  print(('dest_bucket = %s'%dest_bucket))
+                  print(('key = %s' %key))
+                  s3.copy_object(CopySource=copy_source, Bucket=dest_bucket,
+                      Key=key)
+          def bucket_exists():
+              s3 = boto3.client('s3')
+              buckets = s3.list_buckets()
+              for bucket in buckets['Buckets']:
+                  return True
+          def delete_objects(bucket, prefix, objects):
+              s3 = boto3.client('s3')
+              if bucket_exists():
+                  objects = {'Objects': [{'Key': prefix + o} for o in objects]}
+                  s3.delete_objects(Bucket=bucket, Delete=objects)
+          def timeout(event, context):
+              logging.error('Execution is about to time out, sending failure response to CloudFormation')
+              cfnresponse.send(event, context, cfnresponse.FAILED, {}, None)
+          def handler(event, context):
+              # make sure we send a failure to CloudFormation if the function
+              # is going to timeout
+              timer = threading.Timer((context.get_remaining_time_in_millis()
+                      / 1000.00) - 0.5, timeout, args=[event, context])
+              timer.start()
+              print(('Received event: %s' % json.dumps(event)))
+              status = cfnresponse.SUCCESS
+              try:
+                  source_bucket = event['ResourceProperties']['SourceBucket']
+                  dest_bucket = event['ResourceProperties']['DestBucket']
+                  prefix = event['ResourceProperties']['Prefix']
+                  objects = event['ResourceProperties']['Objects']
+                  if event['RequestType'] == 'Delete':
+                      delete_objects(dest_bucket, prefix, objects)
+                  else:
+                      copy_objects(source_bucket, dest_bucket, prefix, objects)
+              except Exception as e:
+                  logging.error('Exception: %s' % e, exc_info=True)
+                  status = cfnresponse.FAILED
+              finally:
+                  timer.cancel()
+                  cfnresponse.send(event, context, status, {}, None)
+
