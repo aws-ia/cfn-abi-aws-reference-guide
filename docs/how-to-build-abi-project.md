@@ -1,20 +1,15 @@
 ## How to build an ABI project 
 
-1. Once you have access to the reposity, clone it to your local environment
+1. Once you have access to the reposity, fork the repository. Refer to [Fork a repo](https://docs.github.com/en/get-started/quickstart/fork-a-repo?platform=linux#forking-a-repository) article. Refer to below examples to create a fork from CLI.
 
     ```
-    git clone https://github.com/aws-ia/<your-repo-name>.git
+    gh auth login
+    gh repo fork https://github.com/aws-ia/cfn-abi-aws-reference-guide.git
     ```
 
-2. Create branch `devel` to start developing your project.
-    ```
-    cd <your-repo-name>
-    ```
-    ```
-    git checkout -b devel
-    git branch
-    ```
-3. Add the required ABI Modules as submodules to your repository (example below to add securityhub repo). 
+You forked an existing report. 
+
+2. Add the required ABI Modules as submodules to your repository (example below to add securityhub repo). 
     ```
     mkdir submodules
     cd submodules
@@ -28,7 +23,6 @@
     ├── docs # Directory to include additional documentation
     ├── images # Directory to include images used in the documentation
     ├── lambda_functions # Directory for storing lambda code
-    │   ├── packages
     │   └── source
     ├── scripts
     ├── submodules # Directory for ABI modules
@@ -43,8 +37,6 @@
     │           ├── sra-securityhub-org
     │           └── sra-sh-prerequisites
     └── templates # Directory for storing IaC templates
-        ├── functions
-        │   └── source
         └── scripts
     ```
 5. Run static tests locally.
