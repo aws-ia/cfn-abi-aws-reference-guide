@@ -77,15 +77,8 @@ When you submit a PR, there are set of automatic tests and manual validations th
 │       └── templates
 └── templates  ## Partner build templates
     ├── abi-enable-partner1-securityhub-integration.yaml
-    ├── enable_integrations
-    │   └── partner1-enable-integrations.yaml
-    ├── functions
-    │   └── source
-    └── scripts
-        └── sample_userdata.sh
-
-21 directories, 37 files
-
+    └── enable_integrations
+        └── partner1-enable-integrations.yaml
 ```
 #### How to get a GitHub repository
 
@@ -119,10 +112,4 @@ You need to Accept the invitation to get access to the repository.
 
 ## FAQs
 
- [CLICK HERE](docs/faqs.md) for additional information. 
-
-
-
-
-
-
+[CLICK HERE](docs/faqs.md) for additional information. 
