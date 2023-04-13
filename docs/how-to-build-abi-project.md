@@ -116,11 +116,9 @@
     git push
     ```
 
-7. Create a Pull Request in the GitHub repository
-
-    ![Create Pull Request](/images/create_pull_request.png)
+7. Create a [Pull Request from your fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
     
-    **PS: ** Wait until the static tests are complete as shown below.
+    **PS:** Wait until the static tests are complete as shown below.
 
     ![Static Tests Success](/images/static_tests_complete.png)
 
