@@ -1,0 +1,8 @@
+diff a/.gitignore b/.gitignore	(rejected hunks)
+@@ -162 +162,6 @@ cython_debug/
+ #.idea/
++
++# Taskcat files
++taskcat_outputs/
++taskcat_outputs
++.taskcat
