@@ -1,3 +1,6 @@
+'''
+Delete all resources created during ABI module testing
+'''
 from time import sleep
 import json
 import logging
@@ -9,7 +12,7 @@ LOGGER = logging.getLogger()
 LOGGER.setLevel(logging.INFO)
 
 SESSION = boto3.session.Session()
-print('Region:{}'.format(SESSION.region_name))
+print('Region: %s', SESSION.region_name)
 
 CF = SESSION.client('cloudformation')
 SSM = SESSION.client('ssm')
@@ -34,7 +37,7 @@ def list_stackset_names(filters=None):
     for cfn in cf_info:
         if cfn['Status'] != 'DELETED':
             ss_name = cfn['StackSetName']
-            if filter:
+            if filters:
                 if ss_name.startswith(filters):
                     cf_names += [ss_name]
             else:
@@ -82,7 +85,7 @@ def delete_all_stackinstances(stackset_name):
     account_list = list(dict.fromkeys(si_account_list(stackset_name)))
     region_list = list(dict.fromkeys(si_region_list(stackset_name)))
     if len(account_list) != 0 and len(region_list) != 0:
-        response = CF.delete_stack_instances(StackSetName=stackset_name, 
+        response = CF.delete_stack_instances(StackSetName=stackset_name,
                             Regions=region_list,
                             Accounts=account_list,
                             RetainStacks=False)
@@ -95,14 +98,18 @@ def delete_all_stackinstances(stackset_name):
 
 def delete_stacksets(filters):
     '''Delete all stacksets created by CfCT solution in the account'''
-    cf_names = list_stackset_names(filter=filters)
+    cf_names = list_stackset_names(filters)
     for cf_name in cf_names:
-        op_info = delete_all_stackinstances(CF, cf_name)
+        op_info = delete_all_stackinstances(cf_name)
         op_id = op_info['OperationId']
-        op_status = CF.describe_stack_set_operation(StackSetName=cf_name, OperationId=op_id)['StackSetOperation']['Status']
+        result = CF.describe_stack_set_operation(StackSetName=cf_name,
+                                                    OperationId=op_id)
+        op_status = result['StackSetOperation']['Status']
         while op_status != 'SUCCEEDED':
             sleep(10)
-            op_status = CF.describe_stack_set_operation(StackSetName=cf_name, OperationId=op_id)['StackSetOperation']['Status']
+            result = CF.describe_stack_set_operation(StackSetName=cf_name,
+                                                        OperationId=op_id)
+            op_status = result['StackSetOperation']['Status']
 
         CF.delete_stack_set(StackSetName=cf_name)
 
@@ -118,9 +125,11 @@ def list_all_stacks():
 def list_stack_status_by_name(stack_name):
     '''List stack status by stack name'''
     stacks = list_all_stacks()
+    output = None
     for stack in stacks:
         if stack['StackName'] == stack_name:
-            return stack['StackStatus']
+            output = stack['StackStatus']
+    return output
 
 def is_nested_stack(stack_name):
     '''Check if stack is a nested stack'''
@@ -128,7 +137,6 @@ def is_nested_stack(stack_name):
     result = False
     if 'ParentId' in stack:
         result = True
-
     return result
 
 def delete_stack(filters='tCaT-'):
@@ -141,7 +149,7 @@ def delete_stack(filters='tCaT-'):
             if not is_nested_stack(stack_name):
                 print('Deleting stack: %s', stack_name)
                 CF.delete_stack(StackName=stack_name)
-                wait = 1 
+                wait = 1
                 while list_stack_status_by_name(stack_name) not in STACKSTATUS and wait < 60:
                     print('Wait: %s, Stack: %s', stack_name, wait)
                     sleep(10)
@@ -156,6 +164,7 @@ def delete_all_objects_from_s3_bucket(bucket_name, account=None):
         sss = boto3.resource('s3')
 
     bucket = sss.Bucket(bucket_name)
+
     print('Deleting all objects from bucket: %s', bucket_name)
     bucket.object_versions.delete()
     bucket.objects.all().delete()
@@ -177,9 +186,15 @@ def delete_s3_buckets(filters='sra-staging-', account=None):
     for bucket in buckets:
         if bucket['Name'].startswith(filters):
             print(filters)
-            delete_all_objects_from_s3_bucket(bucket['Name'], account)
-            print('Deleting bucket: %s', bucket['Name'])
-            sss.delete_bucket(Bucket=bucket['Name'])
+            try:
+                delete_all_objects_from_s3_bucket(bucket['Name'], account)
+                print('Deleting bucket: %s', bucket['Name'])
+                sss.delete_bucket(Bucket=bucket['Name'])
+            except Exception as exe:
+                if exe.response['Error']['Code'] == 'NoSuchBucket':
+                    print('S3 bucket deletion issue. Skipping: %s', bucket['Name'])
+                else:
+                    raise exe
 
 def list_all_parameters():
     ''''List all parameters in the account'''
@@ -201,9 +216,9 @@ def get_temp_credentials(aws_account, role_name='AWSControlTowerExecution'):
     '''
     Get temporary credentials from STS
     '''
-    ROLE_ARN = 'arn:aws:iam::' + aws_account + ':role/' + role_name
+    role_arn = 'arn:aws:iam::' + aws_account + ':role/' + role_name
     response = STS.assume_role(
-        RoleArn=ROLE_ARN,
+        RoleArn=role_arn,
         RoleSessionName=str(aws_account + '-' + role_name),
         DurationSeconds=3600
     )
@@ -232,17 +247,13 @@ def get_account_id(filters='Log Archive'):
     '''
     Get log account ID
     '''
+    acct_id = None
     org = boto3.client('organizations')
     accounts = org.list_accounts()['Accounts']
     for account in accounts:
         if account['Name'] == filters:
-            return account['Id']
-    
-def clear_pre_reqs():
-    '''
-    Delete the pre-req data created during testing
-    '''
-    pass
+            acct_id  = account['Id']
+    return acct_id
 
 def list_cw_lognames():
     '''
@@ -256,8 +267,8 @@ def list_cw_lognames():
         response = cwlogs.describe_log_groups(nextToken=response['nextToken'])
         log_groups.extend(response['logGroups'])
 
-    for item in log_groups:
-        result.append(item['logGroupName'])
+    for log in log_groups:
+        result.append(log['logGroupName'])
 
     return result
 
@@ -274,33 +285,29 @@ def delete_cw_logs(filters='sra/sra-org-trail'):
 
 
 if __name__ == '__main__':
-    '''
-    Delete all resources created during ABI module testing
-    '''
-    
     PARSER = argparse.ArgumentParser(prog='cleanup_config.py',
                                      usage='%(prog)s [-C | -h]',
                                      description='Clear the configuration.')
-    PARSER.add_argument("-C", "--config", default='cleanup_config.json', help="Clear content from config")
+    PARSER.add_argument("-C", "--config", default='cleanup_config.json',
+                        help="Clear content from config")
 
     ACCOUNTS = {"log_account": "Log Archive", "audit": "Audit"}
     ARGS = PARSER.parse_args()
 
     CLEAR_CFG = ARGS.config
 
-    with open(CLEAR_CFG) as json_file:
+    with open(CLEAR_CFG, encoding="utf-8") as json_file:
         CONFIG = json.load(json_file)
         for item in CONFIG:
             if item['Type'] == 'STACK':
                 delete_stack(filters=item['Filter'])
-
             elif item['Type'] == 'S3_BUCKET':
-                account_id = None
+                ACCOUNT_ID = None
                 if 'Account' in item:
                     if item['Account'] in ACCOUNTS:
-                        account_id = get_account_id(ACCOUNTS[item['Account']])
-                print('Account-id: {}'.format(account_id))
-                delete_s3_buckets(filters=item['Filter'], account=account_id)
+                        ACCOUNT_ID = get_account_id(ACCOUNTS[item['Account']])
+                print('Account-id: %s', ACCOUNT_ID)
+                delete_s3_buckets(filters=item['Filter'], account=ACCOUNT_ID)
             elif item['Type'] == 'SSM_PARAMETER':
                 delete_parameters(filters=item['Filter'])
             elif item['Type'] == 'STACK_SET':
@@ -308,6 +315,4 @@ if __name__ == '__main__':
             elif item['Type'] == 'LOG_GROUP':
                 delete_cw_logs(filters=item['Filter'])
             else:
-                print('Invalid type in cleanup_config.json: {}'.format(item['Type']))
-
-
+                print('Invalid type in cleanup_config.json: %s', item['Type'])
