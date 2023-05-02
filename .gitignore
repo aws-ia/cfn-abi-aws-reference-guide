@@ -161,7 +161,15 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+.DS_Store
+
 # Taskcat files
 taskcat_outputs/
 taskcat_outputs
 .taskcat
+
+# ASH tool files
+aggregated_results.txt
+
+# Package files
+lambda.zip
