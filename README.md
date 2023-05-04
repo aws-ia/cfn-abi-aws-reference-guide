@@ -98,6 +98,7 @@ You need to Accept the invitation to get access to the repository.
 ## Things to know
 
 * For Pilot, the existing modules are expected to operate only in AWS Control Tower environments. Hence, the modules provided as part of ABI should be deployed only in the ***Home Region of AWS Control Tower***.
+* Follow the instructions in this link to enable trusted access for AWS CloudFormation StackSets with AWS Organizations via AWS CloudFormation StackSets console.
 * Granting write permissions to GitHub repository is disabled by ABP when you add external contributors. This is required by AWS Security.
 * For Pilot, the GitHub repositories remain private and GitHub IDs will be added manually.
 
