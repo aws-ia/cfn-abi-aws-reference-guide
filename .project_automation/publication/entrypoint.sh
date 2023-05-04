@@ -9,10 +9,11 @@ cd ${PROJECT_PATH}
 
 taskcat upload --bucket-name aws-abi-pilot --object-acl public-read
 
-#if [ -n "${BASE_PATH}" ]
-#then
-#  echo "Running Publication"
-#  taskcat upload
-#else
-#  echo "Local build mode (skipping publication)"
-#fi
+# if [ -n "${BASE_PATH}" ]
+# then
+#   echo "Running Publication"
+#   taskcat upload
+# else
+#   echo "Local build mode (skipping publication)"
+# fi
+
