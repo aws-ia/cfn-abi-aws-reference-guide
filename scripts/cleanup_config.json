@@ -1,34 +1,23 @@
 [
     {
         "Type": "STACK",
-        "Filter" : "tCaT-enable-securityhub-ssm-"
-    },
-    {
-        "Type" : "STACK",
-        "Filter": "tCaT-stage-sh-content-local-"
-    },
-    {
-        "Type" : "STACK",
-        "Filter": "tCaT-enable-securityhub-in-org-ssm-"
+        "Filter" : "replace-with-stack-name-prefix-to-be-cleaned"
     },
     {
         "Type" : "S3_BUCKET",
-        "Filter": "tcat-cfn-abi-aws-reference-guide-"
+        "Filter": "replace-with-s3-bucket-prefix-to-be-cleaned"
     },
     {
         "Type" : "S3_BUCKET",
-        "Filter" : "cfn-abi-aws-reference-guide-"
-    },
-    {
-        "Type" : "S3_BUCKET",
-        "Filter" : "sra-sh-stage-" 
-    },
-    {
-        "Type" : "S3_BUCKET",
-        "Filter" : "sra-sh-staging-"
+        "Filter": "replace-with-s3-bucket-prefix-to-be-cleaned",
+        "Account": "provide-your-account-name"
     },
     {
         "Type" : "SSM_PARAMETER",
-        "Filter" : "/sra/sh/"
+        "Filter" : "/path/to/parameter-prefix-to-delete"
+    },
+    {
+        "Type" : "LOG_GROUP",
+        "Filter" : "path/to/log-group-prefix-to-delete"
     }
 ]
