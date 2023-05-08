@@ -5,9 +5,11 @@
 PROJECT_PATH=${BASE_PATH}/project
 PROJECT_TYPE_PATH=${BASE_PATH}/projecttype
 
-cd ${PROJECT_PATH}
+cd ${PROJECT_PATH}/guide
+hugo
+aws s3 cp --recursive public s3://tcat-cfn-abi-aws-reference-guide-l1iqw9pj/docs-preview/ --acl public-read
 
-taskcat upload --bucket-name aws-abi-pilot --object-acl public-read
+echo "docs published here: s3://tcat-cfn-abi-aws-reference-guide-l1iqw9pj/docs-preview/"
 
 # if [ -n "${BASE_PATH}" ]
 # then
