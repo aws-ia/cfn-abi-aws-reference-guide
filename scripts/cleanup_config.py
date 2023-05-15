@@ -2,6 +2,7 @@
 Delete all resources created during ABI module testing
 '''
 from time import sleep
+from os.path import isfile
 import json
 import logging
 import argparse
@@ -18,6 +19,8 @@ CF = SESSION.client('cloudformation')
 SSM = SESSION.client('ssm')
 S3 = SESSION.client('s3')
 STS = SESSION.client('sts')
+ORG  = SESSION.client('organizations')
+GD  = SESSION.client('guardduty')
 
 STACKSTATUS = [ 'ROLLBACK_FAILED', 'ROLLBACK_COMPLETE', 'DELETE_FAILED', 'DELETE_COMPLETE']
 
@@ -243,14 +246,22 @@ def get_log_archive_account(parameter_name='/sra/gd/control-tower/log-archive-ac
     response = SSM.get_parameter(Name=parameter_name)
     return response['Parameter']['Value']
 
+def get_list_of_accounts():
+    '''
+    Get list of accounts
+    '''
+    accounts = []
+    paginator = ORG.get_paginator('list_accounts')
+    for page in paginator.paginate():
+        accounts += page['Accounts']
+    return accounts
+
 def get_account_id(filters='Log Archive'):
     '''
     Get log account ID
     '''
     acct_id = None
-    org = boto3.client('organizations')
-    accounts = org.list_accounts()['Accounts']
-    for account in accounts:
+    for account in get_list_of_accounts():
         if account['Name'] == filters:
             acct_id  = account['Id']
     return acct_id
@@ -283,6 +294,66 @@ def delete_cw_logs(filters='sra/sra-org-trail'):
             print('Deleting log group: %s', log_group_name)
             cwlogs.delete_log_group(logGroupName=log_group_name)
 
+def get_management_account_id():
+    '''
+    Return management account ID
+    '''
+    return ORG.describe_organization()['Organization']['MasterAccountId']
+
+def get_list_of_detectors():
+    '''
+    Get list of GuardDuty detectors
+    '''
+    detectors = []
+    paginator = GD.get_paginator('list_detectors')
+    for page in paginator.paginate():
+        detectors += page['DetectorIds']
+    return detectors
+
+def delete_detector():
+    '''
+    Delete the GuardDuty detectors in all accounts in the organization in the current region
+    '''
+    accounts = get_list_of_accounts()
+    mgt_acct_id = get_management_account_id()
+    
+    for account in accounts: 
+        if mgt_acct_id != account['Id']:
+            session = establish_remote_session(account['Id'])
+            gd = session.client('guardduty')
+        else: # Management account
+            gd = boto3.client('guardduty')
+
+        detector_ids = get_list_of_detectors()
+        for det_id in detector_ids:
+            print('Deleting GuardDuty Detector in %s', account['Id'])
+            gd.delete_detector(DetectorId=det_id)
+
+def run_cleanup(config):
+    '''
+    Run the cleanup
+    '''
+    for item in config:
+        if item['Type'] == 'STACK':
+            delete_stack(filters=item['Filter'])
+        elif item['Type'] == 'S3_BUCKET':
+            ACCOUNT_ID = None
+            if 'Account' in item:
+                if item['Account'] in ACCOUNTS:
+                    ACCOUNT_ID = get_account_id(ACCOUNTS[item['Account']])
+            print('Account-id: %s', ACCOUNT_ID)
+            delete_s3_buckets(filters=item['Filter'], account=ACCOUNT_ID)
+        elif item['Type'] == 'SSM_PARAMETER':
+            delete_parameters(filters=item['Filter'])
+        elif item['Type'] == 'STACK_SET':
+            delete_stacksets(filters=item['Filter'])
+        elif item['Type'] == 'LOG_GROUP':
+            delete_cw_logs(filters=item['Filter'])
+        elif item['Type'] == 'GUARDDUTY_DET':
+            delete_detector()
+        else:
+            print('Invalid type in cleanup_config.json: %s', item['Type'])
+
 
 if __name__ == '__main__':
     PARSER = argparse.ArgumentParser(prog='cleanup_config.py',
@@ -296,23 +367,9 @@ if __name__ == '__main__':
 
     CLEAR_CFG = ARGS.config
 
-    with open(CLEAR_CFG, encoding="utf-8") as json_file:
-        CONFIG = json.load(json_file)
-        for item in CONFIG:
-            if item['Type'] == 'STACK':
-                delete_stack(filters=item['Filter'])
-            elif item['Type'] == 'S3_BUCKET':
-                ACCOUNT_ID = None
-                if 'Account' in item:
-                    if item['Account'] in ACCOUNTS:
-                        ACCOUNT_ID = get_account_id(ACCOUNTS[item['Account']])
-                print('Account-id: %s', ACCOUNT_ID)
-                delete_s3_buckets(filters=item['Filter'], account=ACCOUNT_ID)
-            elif item['Type'] == 'SSM_PARAMETER':
-                delete_parameters(filters=item['Filter'])
-            elif item['Type'] == 'STACK_SET':
-                delete_stacksets(filters=item['Filter'])
-            elif item['Type'] == 'LOG_GROUP':
-                delete_cw_logs(filters=item['Filter'])
-            else:
-                print('Invalid type in cleanup_config.json: %s', item['Type'])
+    if isfile(CLEAR_CFG):
+        with open(CLEAR_CFG, encoding="utf-8") as json_file:
+            CONFIG = json.load(json_file)
+            run_cleanup(CONFIG)
+    else:
+        print('Config file not found: %s', CLEAR_CFG)
