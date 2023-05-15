@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.111.3">
+    <meta name="generator" content="Relearn 5.12.5">
+    <meta name="description" content="Launch ABI using Customizations for Control Tower (CfCT)">
+    <meta name="author" content="The AWS Integration &amp; Automation team">
+    <title>Deployment Option-2 :: </title>
+    <link href="https://docs.builder-toolkit.partner.aws.dev/docs-abp-project-type/launch-using-cfct/index.html" rel="canonical" type="text/html" title="Deployment Option-2 :: ">
+    <link href="../launch-using-cfct/index.xml" rel="alternate" type="application/rss+xml" title="Deployment Option-2 :: ">
+  
+    <link rel="icon" href="../images/logo.svg" />
+  
+
+
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../css/fontawesome-all.min.css?1684123320" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../css/fontawesome-all.min.css?1684123320" rel="stylesheet"></noscript>
+    <link href="../css/nucleus.css?1684123320" rel="stylesheet">
+    <link href="../css/auto-complete.css?1684123320" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../css/auto-complete.css?1684123320" rel="stylesheet"></noscript>
+    <link href="../css/perfect-scrollbar.min.css?1684123320" rel="stylesheet">
+    <link href="../css/fonts.css?1684123320" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../css/fonts.css?1684123320" rel="stylesheet"></noscript>
+    <link href="../css/theme.css?1684123320" rel="stylesheet">
+    <link href="../css/theme-light-theme.css?1684123320" rel="stylesheet" id="variant-style">
+    <link href="../css/variant.css?1684123320" rel="stylesheet">
+    <link href="../css/print.css?1684123320" rel="stylesheet" media="print">
+    <link href="../css/format-print.css?1684123320" rel="stylesheet">
+    <link href="../css/ie.css?1684123320" rel="stylesheet">
+    <script src="../js/url.js?1684123320"></script>
+    <script src="../js/variant.js?1684123320"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../index.search.js";
+      var root_url="../";
+      var baseUri=root_url.replace(/\/$/, '');
+      // translations
+      window.T_Copy_to_clipboard = 'Copy to clipboard';
+      window.T_Copied_to_clipboard = 'Copied to clipboard!';
+      window.T_Copy_link_to_clipboard = 'Copy link to clipboard';
+      window.T_Link_copied_to_clipboard = 'Copied link to clipboard!';
+      window.T_No_results_found = 'No results found for \u0022{0}\u0022';
+      window.T_N_results_found = '{1} results found for \u0022{0}\u0022';
+      // some further base stuff
+      var baseUriFull='https:\/\/docs.builder-toolkit.partner.aws.dev\/docs-abp-project-type/';
+      window.variants && variants.init( [ 'light-theme', 'dark-theme' ] );
+    </script>
+
+
+<link
+  href="../css/style.css?1684123320"
+  rel="stylesheet"
+>
+
+
+
+
+
+  </head>
+  <body class="mobile-support print" data-url="../launch-using-cfct/index.html">
+    <div id="body" class="default-animation">
+      <div id="sidebar-overlay"></div>
+      <div id="toc-overlay"></div>
+      <nav id="topbar" class="highlightable">
+        <div>
+          <div id="breadcrumbs">
+            <span id="sidebar-toggle-span">
+              <a href="#" id="sidebar-toggle" class="topbar-link" title='Menu (CTRL+ALT+n)'><i class="fas fa-bars fa-fw"></i></a>
+            </span>
+            <ol class="links" itemscope itemtype="http://schema.org/BreadcrumbList">
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../index.html"><span itemprop="name">AWS Built In - Reference Guide</span></a><meta itemprop="position" content="1"> > </li>
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Deployment Option-2</span><meta itemprop="position" content="2"></li>
+            </ol>
+          </div>
+        </div>
+      </nav>
+      <main id="body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <div id="head-tags">
+          </div>
+          <article class="default">
+<h1 id="deployment-option-2">Deployment Option-2</h1>
+
+<p><a href="https://aws.amazon.com/solutions/implementations/customizations-for-aws-control-tower/" target="_blank">Customizations for AWS Control Tower</a> combines AWS Control Tower and other highly-available, trusted AWS services to help customers more quickly set up a secure, multi-account AWS environment using AWS best practices. You can easily add customizations to your AWS Control Tower landing zone using an AWS CloudFormation template and service control policies (SCPs). You can deploy the custom template and policies to individual accounts and organizational units (OUs) within your organization. It also integrates with AWS Control Tower lifecycle events to ensure that resource deployments stay in sync with your landing zone. For example, when a new account is created using the AWS Control Tower account factory, Customizations for AWS Control Tower ensures that all resources attached to the account&rsquo;s OUs will be automatically deployed.</p>
+<p>The templates provided as part of the ABI packages are deployable using Customizations for Control Tower. Please check below for additional details.</p>
+<h4 id="pre-requisites">Pre-requisites</h4>
+<ol>
+<li>The CfCT solution, do not have ability to launch resources on the Management account. Hence, you need to create the role with required permissions in the Management account.</li>
+</ol>
+<h4 id="how-it-works">How it works</h4>
+<p>To deploy this sample partner integration page using CfCT solution, add the following blurb to the <code>manifest.yaml</code> file from your CfCT solution and update the account/ou names as needed.</p>
+<pre tabindex="0"><code>resources:
+  - name: sra-enable-partner1-solution
+    resource_file: https://aws-abi-pilot.s3.us-east-1.amazonaws.com/cfn-abi-aws-reference-guide/templates/abi-enable-partner1-securityhub-integration.yaml
+    deploy_method: stack_set
+    parameters:
+      - parameter_key: pProductArn
+        parameter_value: arn:aws:securityhub:us-east-1::product/cloud-custodian/cloud-custodian
+      - parameter_key: pSRASourceS3BucketName
+        parameter_value: aws-abi-pilot
+      - parameter_key: pSRAStagingS3KeyPrefix
+        parameter_value: cfn-abi-aws-reference-guide
+    deployment_targets:
+      accounts:
+        - [[MANAGEMENT-AWS-ACCOUNT-ID]]
+</code></pre>
+            <footer class="footline">
+            </footer>
+          </article>
+        </div>
+      </main>
+    </div>
+    <script src="../js/clipboard.min.js?1684123320" defer></script>
+    <script src="../js/perfect-scrollbar.min.js?1684123320" defer></script>
+    <script src="../js/theme.js?1684123320" defer></script>
+  </body>
+</html>
