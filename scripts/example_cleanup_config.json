@@ -1,0 +1,26 @@
+[
+    {
+        "Type": "STACK",
+        "Filter" : "replace-with-stack-name-prefix-to-be-cleaned"
+    },
+    {
+        "Type" : "S3_BUCKET",
+        "Filter": "replace-with-s3-bucket-prefix-to-be-cleaned"
+    },
+    {
+        "Type" : "S3_BUCKET",
+        "Filter": "replace-with-s3-bucket-prefix-to-be-cleaned",
+        "Account": "provide-your-account-name"
+    },
+    {
+        "Type" : "SSM_PARAMETER",
+        "Filter" : "/path/to/parameter-prefix-to-delete"
+    },
+    {
+        "Type" : "LOG_GROUP",
+        "Filter" : "path/to/log-group-prefix-to-delete"
+    },
+    {
+        "Type" : "GUARDDUTY_DET"
+    }
+]
