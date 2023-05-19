@@ -1,0 +1,82 @@
+/* here in this showcase we use our own modified chroma syntax highlightning style;
+   if you want to use a predefined style instead:
+   - remove `markup.highlight.noClasses` from your config.toml
+   - set `markup.highlight.style` to a predefined style name in your config.toml
+   - remove the following `@import` of the self-defined chroma stylesheet */
+@import 'chroma-github.css'; /* For code blocks in Markdown pages */
+
+:root {
+  --BROWSER-theme: light; /* name of the theme for browser scrollbars of the main section */
+  --MERMAID-theme: light; /* name of the default Mermaid theme for this variant, can be overridden in config.toml */
+  --SWAGGER-theme: light; /* name of the default Swagger theme for this variant, can be overridden in config.toml */
+
+  --PRIMARY-color: #232f3e; /* Primary brand color */
+  --SECONDARY-color: #f90; /* Secondary brand color */
+  --ACCENT-color: #ff0; /* Accent brand color, used for search highlights */
+
+  --MAIN-font: 'Amazon Ember';
+
+  --MAIN-ANCHOR-color: #44b9d6; /* Color of anchors on titles */
+
+  --MAIN-ARTICLE-BG-color: #fff;
+
+  --MAIN-BG-color: #f2f3f3; /* Background color of content */
+
+  --MAIN-LINK-color: #0a4a74; /* Color of links */
+  --MAIN-LINK-HOVER-color: #0073bb; /* Color of hovered links */
+
+  --MAIN-TEXT-color: #16191f; /* Color of text by default */
+
+  --MAIN-TITLES-H1-color: #16191f; /* Color of h1 titles */
+  --MAIN-TITLES-TEXT-color: #16191f; /* Text color of h2-h6 titles and transparent box titles */
+  --MAIN-TITLES-TEXT-font: 'Amazon Ember Display';
+
+  --MENU-HEADER-BG-color: #161e2d; /* Background color of menu header */
+  --MENU-HEADER-BORDER-color: #161e2d; /* Color of menu header border */
+
+  --MENU-HOME-LINK-color: #44b9d6; /* Home button color if configured */
+  --MENU-HOME-LINK-HOVER-color: #00a1c9; /* Hovered home button color if configured */
+
+  --MENU-SEARCH-color: #16191f; /* Text and icon color of search box */
+  --MENU-SEARCH-BG-color: #fff; /* Search field background color (by default borders + icons) */
+  --MENU-SEARCH-BORDER-color: #eaeded; /* Border color of search box */
+  --MENU-SEARCH-BOX-color: #4d6584; /* Override search field border color */
+  --MENU-SEARCH-BOX-ICONS-color: #4d6584; /* Override search field icons color */
+
+  --MENU-SECTION-ACTIVE-CATEGORY-color: #16191f; /* Color of active category text */
+  --MENU-SECTION-ACTIVE-CATEGORY-BG-color: #f90; /* Color of background for the active category (only) */
+  --MENU-SECTION-ACTIVE-CATEGORY-TEXT-color: #fff; /* Color of pre text when selected */
+  --MENU-SECTION-HR-color: #545b64; /* Separator color of menu footer */
+
+  --MENU-SECTIONS-ACTIVE-BG-color: #232f3e; /* Background color of the active section and its childs */
+  --MENU-SECTIONS-BG-color: #161e2d; /* Background color of other sections */
+  --MENU-SECTIONS-TEXT-color: #f90; /*Color of pre text */
+  --MENU-SECTIONS-LINK-color: #ccc; /* Color of links in menu */
+  --MENU-SECTIONS-LINK-HOVER-color: #e6e6e6; /* Color of links in menu, when hovered */
+
+  --MENU-VISITED-color: #527FFF; /* Color of 'page visited' icons in menu */
+
+  --TAG-BG-color: #545b64;
+
+  --CODE-font: 'Amazon Ember Mono';
+
+  --CODE-BLOCK-color: #232f3e; /* fallback text color of block code; should be adjusted to your selected chroma style */
+  --CODE-BLOCK-BG-color: #fff; /* fallback background color of block code; should be adjusted to your selected chroma style */
+  --CODE-BLOCK-BORDER-color: #eaeded; /* border color of block code */
+
+  --CODE-INLINE-color: #16191f; /* text color of inline code */
+  --CODE-INLINE-BG-color: #d5dbdb; /* background color of inline code */
+  --CODE-INLINE-BORDER-color: #d5dbdb; /* border color of inline code */
+
+  --BOX-BG-color: rgba(255, 255, 255, .833); /* Background color of colored boxes */
+  --BOX-CAPTION-color: rgba(255, 255, 255, 1); /* Text color of colored box titles */
+  --BOX-TEXT-color: rgba(16, 16, 16, 1); /* Text color of colored box content */
+  --BOX-ORANGE-color: #eb5f07;
+  --BOX-ORANGE-TEXT-color: #d5dbdb;
+  --BOX-BLUE-color: #0073bb;
+  --BOX-BLUE-TEXT-color: #d5dbdb;
+  --BOX-GREEN-color: #1d8102;
+  --BOX-GREEN-TEXT-color: #d5dbdb;
+  --BOX-RED-color: #d13212;
+  --BOX-RED-TEXT-color: #d5dbdb;
+}

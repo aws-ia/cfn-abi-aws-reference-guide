@@ -1,0 +1,296 @@
+@font-face {
+  font-family: 'Amazon Ember';
+  src: url("../fonts/AmazonEmber_W_Bd.eot");
+  src:
+    url("../fonts/AmazonEmber_W_Bd.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/AmazonEmber_W_Bd.woff2") format("woff2"),
+    url("../fonts/AmazonEmber_W_Lt.woff") format("woff");
+  font-style: normal;
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'Amazon Ember';
+  src: url("../fonts/AmazonEmber_W_BdIt.eot");
+  src:
+    url("../fonts/AmazonEmber_W_BdIt.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/AmazonEmber_W_BdIt.woff2") format("woff2"),
+    url("../fonts/AmazonEmber_W_BdIt.woff") format("woff");
+  font-style: italic;
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'Amazon Ember';
+  src: url("../fonts/AmazonEmber_W_He.eot");
+  src:
+    url("../fonts/AmazonEmber_W_He.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/AmazonEmber_W_He.woff2") format("woff2"),
+    url("../fonts/AmazonEmber_W_He.woff") format("woff");
+  font-style: normal;
+  font-weight: bolder;
+}
+
+@font-face {
+  font-family: 'Amazon Ember';
+  src: url("../fonts/AmazonEmber_W_HeIt.eot");
+  src:
+    url("../fonts/AmazonEmber_W_HeIt.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/AmazonEmber_W_HeIt.woff2") format("woff2"),
+    url("../fonts/AmazonEmber_W_HeIt.woff") format("woff");
+  font-style: italic;
+  font-weight: bolder;
+}
+
+@font-face {
+  font-family: 'Amazon Ember';
+  src: url("../fonts/AmazonEmber_W_Lt.eot");
+  src:
+    url("../fonts/AmazonEmber_W_Lt.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/AmazonEmber_W_Lt.woff2") format("woff2"),
+    url("../fonts/AmazonEmber_W_Lt.woff") format("woff");
+  font-style: normal;
+  font-weight: lighter;
+}
+
+@font-face {
+  font-family: 'Amazon Ember';
+  src: url("../fonts/AmazonEmber_W_LtIt.eot");
+  src:
+    url("../fonts/AmazonEmber_W_LtIt.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/AmazonEmber_W_LtIt.woff2") format("woff2"),
+    url("../fonts/AmazonEmber_W_LtIt.woff") format("woff");
+  font-style: italic;
+  font-weight: lighter;
+}
+
+@font-face {
+  font-family: 'Amazon Ember';
+  src: url("../fonts/AmazonEmber_W_Rg.eot");
+  src:
+    url("../fonts/AmazonEmber_W_Rg.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/AmazonEmber_W_Rg.woff2") format("woff2"),
+    url("../fonts/AmazonEmber_W_Rg.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'Amazon Ember';
+  src: url("../fonts/AmazonEmber_W_RgIt.eot");
+  src:
+    url("../fonts/AmazonEmber_W_RgIt.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/AmazonEmber_W_RgIt.woff2") format("woff2"),
+    url("../fonts/AmazonEmber_W_RgIt.woff") format("woff");
+  font-style: italic;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'Amazon Ember';
+  src: url("../fonts/AmazonEmber_W_RgIt.eot");
+  src:
+    url("../fonts/AmazonEmber_W_RgIt.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/AmazonEmber_W_RgIt.woff2") format("woff2"),
+    url("../fonts/AmazonEmber_W_RgIt.woff") format("woff");
+  font-style: italic;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'Amazon Ember Mono';
+  src: url("../fonts/AmazonEmberMono_W_Bd.eot");
+  src:
+    url("../fonts/AmazonEmberMono_W_Bd.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/AmazonEmberMono_W_Bd.woff2") format("woff2"),
+    url("../fonts/AmazonEmberMono_W_Bd.woff") format("woff");
+  font-style: normal;
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'Amazon Ember Mono';
+  src: url("../fonts/AmazonEmberMono_W_Rg.eot");
+  src:
+    url("../fonts/AmazonEmberMono_W_Rg.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/AmazonEmberMono_W_Rg.woff2") format("woff2"),
+    url("../fonts/AmazonEmberMono_W_Rg.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'Amazon Ember Cd RC';
+  src: url("../fonts/AmazonEmberCd_W_Bd.eot");
+  src:
+    url("../fonts/AmazonEmberCd_W_Bd.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/AmazonEmberCd_W_Bd.woff2") format("woff2"),
+    url("../fonts/AmazonEmberCd_W_Bd.woff") format("woff");
+  font-style: normal;
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'Amazon Ember Cd RC';
+  src: url("../fonts/AmazonEmberCd_W_BdIt.eot");
+  src:
+    url("../fonts/AmazonEmberCd_W_BdIt.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/AmazonEmberCd_W_BdIt.woff2") format("woff2"),
+    url("../fonts/AmazonEmberCd_W_BdIt.woff") format("woff");
+  font-style: italic;
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'Amazon Ember Cd RC';
+  src: url("../fonts/AmazonEmberCd_W_Lt.eot");
+  src:
+    url("../fonts/AmazonEmberCd_W_Lt.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/AmazonEmberCd_W_Lt.woff2") format("woff2"),
+    url("../fonts/AmazonEmberCd_W_Lt.woff") format("woff");
+  font-style: normal;
+  font-weight: lighter;
+}
+
+@font-face {
+  font-family: 'Amazon Ember Cd RC';
+  src: url("../fonts/AmazonEmberCd_W_LtIt.eot");
+  src:
+    url("../fonts/AmazonEmberCd_W_LtIt.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/AmazonEmberCd_W_LtIt.woff2") format("woff2"),
+    url("../fonts/AmazonEmberCd_W_LtIt.woff") format("woff");
+  font-style: italic;
+  font-weight: lighter;
+}
+
+@font-face {
+  font-family: 'Amazon Ember Cd RC';
+  src: url("../fonts/AmazonEmberCd_W_Rg.eot");
+  src:
+    url("../fonts/AmazonEmberCd_W_Rg.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/AmazonEmberCd_W_Rg.woff2") format("woff2"),
+    url("../fonts/AmazonEmberCd_W_Rg.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'Amazon Ember Cd RC';
+  src: url("../fonts/AmazonEmberCd_W_RgIt.eot");
+  src:
+    url("../fonts/AmazonEmberCd_W_RgIt.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/AmazonEmberCd_W_RgIt.woff2") format("woff2"),
+    url("../fonts/AmazonEmberCd_W_RgIt.woff") format("woff");
+  font-style: italic;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'Amazon Ember Display';
+  src: url("../fonts/AmazonEmberDisplay_W_Bd.eot");
+  src:
+    url("../fonts/AmazonEmberDisplay_W_Bd.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/AmazonEmberDisplay_W_Bd.woff2") format("woff2"),
+    url("../fonts/AmazonEmberDisplay_W_Bd.woff") format("woff");
+  font-style: normal;
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'Amazon Ember Display';
+  src: url("../fonts/AmazonEmberDisplay_W_He.eot");
+  src:
+    url("../fonts/AmazonEmberDisplay_W_He.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/AmazonEmberDisplay_W_He.woff2") format("woff2"),
+    url("../fonts/AmazonEmberDisplay_W_He.woff") format("woff");
+  font-style: normal;
+  font-weight: bolder;
+}
+
+@font-face {
+  font-family: 'Amazon Ember Display';
+  src: url("../fonts/AmazonEmberDisplay_W_Lt.eot");
+  src:
+    url("../fonts/AmazonEmberDisplay_W_Lt.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/AmazonEmberDisplay_W_Lt.woff2") format("woff2"),
+    url("../fonts/AmazonEmberDisplay_W_Lt.woff") format("woff");
+  font-style: normal;
+  font-weight: lighter;
+}
+
+@font-face {
+  font-family: 'Amazon Ember Display';
+  src: url("../fonts/AmazonEmberDisplay_W_Rg.eot");
+  src:
+    url("../fonts/AmazonEmberDisplay_W_Rg.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/AmazonEmberDisplay_W_Rg.woff2") format("woff2"),
+    url("../fonts/AmazonEmberDisplay_W_Rg.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@media screen and (min-width: 1430px) {
+  #body .flex-block-wrapper {
+      min-width: calc( 1430px - 300px - 2 * 3.25rem );
+      width: calc( 1430px - 300px - 2 * 3.25rem );
+      max-width: calc( 1430px - 300px - 2 * 3.25rem );
+  }
+}
+
+#sidebar #footer > div {
+  font-size: .8125rem;
+  margin: 0 auto;
+  max-width: 18.75rem;
+  min-width: 14.375rem;
+  padding: 0 1rem;
+  text-align: center;
+}
+
+#sidebar #footer p {
+  margin: 0;
+}
+
+#sidebar #footer ul {
+  list-style: none;
+  margin-top: 8px;
+  padding: 0;
+}
+
+#sidebar #footer ul > li {
+  display: inline;
+  padding-left: 8px;
+  padding-right: 4px;
+}
+
+#sidebar #footer ul > li:not(:first-child) {
+  border-left: 1px solid var(--MENU-SECTION-HR-color);
+}
+
+#sidebar #footer ul > li > a {
+  color: var(--MENU-SECTIONS-LINK-color);
+  cursor: pointer;
+  display: inline;
+  text-decoration: none;
+}
+
+#sidebar #footer ul > li > a:hover {
+  color: var(--MENU-SECTIONS-LINK-HOVER-color);
+  cursor: pointer;
+}
+
+#sidebar #shortcuts > div {
+  color: var(--INTERNAL-MENU-SECTIONS-LINK-color);
+  font-size: 1.1rem;
+  font-weight: 300;
+  text-rendering: auto;
+  text-transform: none;
+}
+
+article {
+  background-color: var(--MAIN-ARTICLE-BG-color);
+  padding: 0 1rem 1rem 1rem;
+}
+
+article > h1 {
+  text-transform: none !important;
+}

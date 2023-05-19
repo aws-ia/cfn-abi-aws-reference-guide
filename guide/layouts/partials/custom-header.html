@@ -1,0 +1,11 @@
+{{- $assetBusting := not .Site.Params.disableAssetsBusting }}
+{{/* Custom styling */}}
+{{ with resources.Get "css/style.css" | }}
+<link
+  href="{{- .RelPermalink -}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}"
+  rel="stylesheet"
+>
+{{ end }}
+{{/* Use highlight.js for code block syntax highlighting of AsciiDoc pages. Themes imported in mode. */}}
+{{/* <script src="{{ "hljs/highlight.min.js" | relURL }}{{ if not .Site.Params.disableAssetsBusting }}?{{ now.Unix }}{{ end }}"></script> */}}
+{{/* <script>hljs.highlightAll();</script> */}}
