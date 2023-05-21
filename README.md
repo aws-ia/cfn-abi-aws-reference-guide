@@ -102,6 +102,11 @@ You need to Accept the invitation to get access to the repository.
 * Granting write permissions to GitHub repository is disabled by ABP when you add external contributors. This is required by AWS Security.
 * For Pilot, the GitHub repositories remain private and GitHub IDs will be added manually.
 
+## Common Patterns
+
+* [CloudTrail ABI Module - Common Patterns](docs/sample-patterns/cloudtrail-patterns.md)
+* [GuardDuty ABI Module - Common Patterns](docs/sample-patterns/guardduty-patterns.md)
+
 ## Cleanup Instructions
 
 [CLICK HERE](docs/cleanup-instructions.md) for additional instructions. 
