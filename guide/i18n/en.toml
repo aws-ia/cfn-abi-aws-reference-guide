@@ -1,0 +1,8 @@
+[message-404]
+other = """
+<p>You might have typed the address incorrectly or you might have used an outdated link.</p>
+<p>Check the link and try again, or:<p>
+"""
+
+[title-404]
+other = "Page not found"

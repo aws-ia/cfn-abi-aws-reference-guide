@@ -1,0 +1,11 @@
+# Relearn theme: Must be set to the following to activate search
+# https://mcshelby.github.io/hugo-theme-relearn/basics/configuration/index.html#activate-search
+home = [
+  "HTML",
+  "PRINT",
+  "RSS",
+  "SEARCH",
+  "SEARCHPAGE",
+]
+section = ["HTML", "RSS", "PRINT"]
+page = ["HTML", "RSS", "PRINT"]
