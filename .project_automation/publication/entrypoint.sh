@@ -38,6 +38,12 @@ cd ${PROJECT_PATH}
 
 taskcat upload --bucket-name aws-abi-pilot --object-acl public-read
 
+# cd ${PROJECT_PATH}/guide
+# hugo
+# aws s3 cp --recursive public s3://aws-abi-pilot/docs-preview/ --acl public-read
+# 
+# echo "docs published here: s3://aws-abi-pilot/docs-preview/"
+# 
 # if [ -n "${BASE_PATH}" ]
 # then
 #   echo "Running Publication"
