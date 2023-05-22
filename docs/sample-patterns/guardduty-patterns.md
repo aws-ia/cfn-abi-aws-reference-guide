@@ -24,7 +24,7 @@ The sample code provided in the GuardDuty module accomplishes the following:
 
 #### For partner integrations that leverage ABI GuardDuty module
 
-Following template snippet is the mimimum parameter required to enable Guardduty. You may leave the remaining parameters to *default* values unless your product needs additional options supported by the ABI module. Please refer to the Descriptions of each parameter in the template for additional details.
+Following template snippet is the minimum parameter required to enable Guardduty. You may leave the remaining parameters to *default* values unless your product needs additional options supported by the ABI module. Please refer to the Descriptions of each parameter in the template for additional details.
 
 We recommend to provide an option in your main template to enable the GuardDuty module. Keep this option **disabled by default**. If the customer already have GuardDuty enabled in their environments, trying to enable guardduty again will lead to the stack failures. 
 

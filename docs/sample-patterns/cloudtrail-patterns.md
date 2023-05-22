@@ -12,7 +12,7 @@ You can optionally enable **management events ONLY** for the Organization CloudT
 
 #### Pattern 1: Enable Organization CloudTrail with management events only
 
-Following template snippet is the mimimum parameter required to enable Organization CloudTrail with management events only. You may leave the remaining parameters to *default* values.
+Following template snippet is the minimum parameter required to enable Organization CloudTrail with management events only. You may leave the remaining parameters to *default* values.
 
 ```
   rCloudTrailManagementEventsOnly:
@@ -29,7 +29,7 @@ Following template snippet is the mimimum parameter required to enable Organizat
 
 #### Pattern 2: Enable Organization CloudTrail with data events only
 
-Following template snippet is the mimimum parameter required to enable Organization CloudTrail with data events only. You may leave the remaining parameters to *default* values.
+Following template snippet is the minimum parameter required to enable Organization CloudTrail with data events only. You may leave the remaining parameters to *default* values.
 
 ```
   rCloudTrailDataEventsOnly:
@@ -47,7 +47,7 @@ Following template snippet is the mimimum parameter required to enable Organizat
 
 #### Scenario 1 : For partner integrations that leverage ABI CloudTrail module
 
-We recommend to provide an option in your main template to enable the CloudTrail module. Keep this option **disabled by default**. Considering the cost associated with CloudTrail when second trail is created unintentionlly, we recommend to have this option disabled by default and let customers choose to enable this option.
+We recommend to provide an option in your main template to enable the CloudTrail module. Keep this option **disabled by default**. Considering the cost associated with CloudTrail when second trail is created unintentionally, we recommend to have this option disabled by default and let customers choose to enable this option.
 
 This allows the customers who do not have the CloudTrail trails enabled, to enable it as part of the deployment of your solution.
 
@@ -60,17 +60,17 @@ Metadata:
       - Label:
           default: CloudTrail Module Properties
         Parameters:
-          - pEnableCloudTrial
+          - pEnableCloudTrail
           - pEnableS3DataEvents
 
     ParameterLabels:
-      pEnableCloudTrial:
+      pEnableCloudTrail:
         default: Enable CloudTrail Organization Trail?
       pEnableS3DataEvents:
-        default: Enable CloudTrail S3 Data Events for all buckets or managment accounts?
+        default: Enable CloudTrail S3 Data Events for all buckets or management accounts?
 
 Parameters:
-  pEnableCloudTrial:
+  pEnableCloudTrail:
     AllowedValues: ['true', 'false']
     Default: 'false'
     Description: Enable CloudTrail
@@ -82,13 +82,13 @@ Parameters:
     Type: String
 
 Conditions:
-  cEnableCloudTrial: !Equals [!Ref pEnableCloudTrial, 'true']
+  cEnableCloudTrail: !Equals [!Ref pEnableCloudTrail, 'true']
 
 
 Resources:
-  rCloudTrialEnableInOrg:
+  rCloudTrailEnableInOrg:
     Type: 'AWS::CloudFormation::Stack'
-    Condition: cEnableCloudTrial
+    Condition: cEnableCloudTrail
     DeletionPolicy: Delete
     UpdateReplacePolicy: Delete
     Properties:
