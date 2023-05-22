@@ -1,9 +1,23 @@
 ---
-weight: 1
+weight: 2
 title: Overview
 description: 
 ---
 
+
+This ABI deploys <Partner project name> Integrations for AWS Organizations on the AWS Cloud. It’s for <persona-1> and <persona-2> that want to provide <partner-product-functionality> across multiple AWS accounts. If you are unfamiliar with AWS Built In, refer to the [AWS Built in](https://aws.amazon.com/builtin).
+
+Deploying this ABI package does not guarantee an organization’s compliance with any laws, certifications, policies, or other regulations.
+
+
+[Expand solution overview here]
+
+### AWS Marketplace listing
+
+[Partner-product-name-in-aws-marketplace](https://aws.amazon.com/marketplace/pp/prodview-<marketplace-id>)
+
+**Next:** Choose [Terminologies](/terminologies/index.html) to get started.
+=======
 The AWS Built-in program is a differentiation program that validates Partner solutions which have automated their solution integrations with relevant AWS foundational services like identity, management, security and operations.  This program helps customers find and deploy a validated Partner solution that addresses specific customer use cases while providing deep visibility and control of AWS native service integration.
 
 Utilizing AWS Built-In Partner software, customers can trust that the ISV product they are evaluating has been independently verified by AWS.

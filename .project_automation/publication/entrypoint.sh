@@ -32,6 +32,12 @@ aws s3 ls --recursive --human-readable --summarize "${S3_URI}"
 
 printf "\nPublished at ${BASE_URL}\n"
 
+# Publish code to S3 bucket
+
+cd ${PROJECT_PATH}
+
+taskcat upload --bucket-name aws-abi-pilot --object-acl public-read
+
 # cd ${PROJECT_PATH}/guide
 # hugo
 # aws s3 cp --recursive public s3://aws-abi-pilot/docs-preview/ --acl public-read
