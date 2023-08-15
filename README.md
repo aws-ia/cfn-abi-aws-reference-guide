@@ -36,6 +36,7 @@ All the PRs will go through a set of auto validations built-in to the pipelines.
 * **Project :** This is a GitHub repository for both ABI modules and ABI Projects
 * **Project Owner :** The aliases of the 2‑5 Amazonians that will be granted administrative privileges to your AWS Builder Platform project.
 * **Project Contributor :** Contributors are those that have been granted access to the project's code repository.
+* **Repository permissions :** GitHub permissions assigned to repo contributors (Read/Write). All external users will have **Read** permissions only. 
 
 
 ### Architecture
