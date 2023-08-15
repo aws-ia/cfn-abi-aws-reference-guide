@@ -1,0 +1,5 @@
+{{ with .Site.Params.logoPath }}
+  {{ with resources.Get . }}
+    <link rel="icon" href="{{- .RelPermalink -}}" />
+  {{ end }}
+{{ end }}

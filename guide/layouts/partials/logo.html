@@ -1,0 +1,16 @@
+{{ with .Site.Params.logoPath }}
+  {{ with resources.Get . }}
+    <div>
+      <a id="logo" href='{{ $.Site.Home.RelPermalink }}' title='{{ T "Go-to-homepage" }}'>
+        <figure>
+          <img
+            alt="AWS logo"
+            height="100px"
+            src="{{- .RelPermalink -}}"
+            style="vertical-align:middle"
+          />
+        </figure>
+      </a>
+    </div>
+  {{ end }}
+{{ end }}

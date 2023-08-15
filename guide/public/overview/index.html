@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.111.3">
+    <meta name="generator" content="Relearn 5.12.5">
+    <meta name="description" content="AWS Builder Platform documentation">
+    <meta name="author" content="The AWS Integration &amp; Automation team">
+    <title>Overview :: </title>
+    <link href="../overview/index.xml" rel="alternate" type="application/rss+xml" title="Overview :: ">
+    <link href="../overview/index.print.html" rel="alternate" type="text/html" title="Overview :: ">
+  
+    <link rel="icon" href="../images/logo.svg" />
+  
+
+
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../css/fontawesome-all.min.css?1684125440" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../css/fontawesome-all.min.css?1684125440" rel="stylesheet"></noscript>
+    <link href="../css/nucleus.css?1684125440" rel="stylesheet">
+    <link href="../css/auto-complete.css?1684125440" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../css/auto-complete.css?1684125440" rel="stylesheet"></noscript>
+    <link href="../css/perfect-scrollbar.min.css?1684125440" rel="stylesheet">
+    <link href="../css/fonts.css?1684125440" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../css/fonts.css?1684125440" rel="stylesheet"></noscript>
+    <link href="../css/theme.css?1684125440" rel="stylesheet">
+    <link href="../css/theme-light-theme.css?1684125440" rel="stylesheet" id="variant-style">
+    <link href="../css/variant.css?1684125440" rel="stylesheet">
+    <link href="../css/print.css?1684125440" rel="stylesheet" media="print">
+    <link href="../css/ie.css?1684125440" rel="stylesheet">
+    <script src="../js/url.js?1684125440"></script>
+    <script src="../js/variant.js?1684125440"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../index.search.js";
+      var root_url="../";
+      var baseUri=root_url.replace(/\/$/, '');
+      // translations
+      window.T_Copy_to_clipboard = 'Copy to clipboard';
+      window.T_Copied_to_clipboard = 'Copied to clipboard!';
+      window.T_Copy_link_to_clipboard = 'Copy link to clipboard';
+      window.T_Link_copied_to_clipboard = 'Copied link to clipboard!';
+      window.T_No_results_found = 'No results found for \u0022{0}\u0022';
+      window.T_N_results_found = '{1} results found for \u0022{0}\u0022';
+      // some further base stuff
+      var baseUriFull='https:\/\/docs.builder-toolkit.partner.aws.dev\/docs-abp-project-type/';
+      window.variants && variants.init( [ 'light-theme', 'dark-theme' ] );
+    </script>
+
+
+<link
+  href="../css/style.css?1684125441"
+  rel="stylesheet"
+>
+
+
+
+
+
+  </head>
+  <body class="mobile-support html" data-url="../overview/index.html">
+    <div id="body" class="default-animation">
+      <div id="sidebar-overlay"></div>
+      <div id="toc-overlay"></div>
+      <nav id="topbar" class="highlightable">
+        <div>
+          <div class="navigation">
+            <a class="nav nav-next topbar-link" href="../how-to-build-abi-project/index.html" title="How to build an ABI project (&#129106;)"><i class="fas fa-chevron-right fa-fw"></i></a>
+          </div>
+          <div class="navigation">
+            <a class="nav nav-prev topbar-link" href="../index.html" title="AWS Built In - Reference Guide (&#129104;)"><i class="fas fa-chevron-left fa-fw"></i></a>
+          </div>
+          <div id="top-print-link">
+            <a class="print-link topbar-link" title='Print whole chapter (CTRL+ALT+p)' href="../overview/index.print.html">
+              <i class="fas fa-print fa-fw"></i>
+            </a>
+          </div>
+          <div id="breadcrumbs">
+            <span id="sidebar-toggle-span">
+              <a href="#" id="sidebar-toggle" class="topbar-link" title='Menu (CTRL+ALT+n)'><i class="fas fa-bars fa-fw"></i></a>
+            </span>
+            <span id="toc-menu" title='Table of Contents (CTRL+ALT+t)'><i class="fas fa-list-alt fa-fw"></i></span>
+            <ol class="links" itemscope itemtype="http://schema.org/BreadcrumbList">
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../index.html"><span itemprop="name">AWS Built In - Reference Guide</span></a><meta itemprop="position" content="1"> > </li>
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Overview</span><meta itemprop="position" content="2"></li>
+            </ol>
+          </div>
+          <div class="default-animation progress">
+            <div class="toc-wrapper"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#partner-workflow">Partner Workflow</a></li>
+    <li><a href="#customer-workflow-subjected-to-change">Customer workflow [Subjected to change]</a>
+      <ul>
+        <li><a href="#terminologies">Terminologies</a></li>
+        <li><a href="#architecture">Architecture</a></li>
+      </ul>
+    </li>
+    <li><a href="#things-to-know">Things to know</a></li>
+    <li><a href="#cleanup-instructions">Cleanup Instructions</a></li>
+    <li><a href="#cost-considerations">Cost Considerations</a></li>
+    <li><a href="#faqs">FAQs</a></li>
+  </ul>
+</nav>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <main id="body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <div id="head-tags">
+          </div>
+          <article class="default">
+<h1 id="overview">Overview</h1>
+
+<p>The AWS Built-in program is a differentiation program that validates Partner solutions which have automated their solution integrations with relevant AWS foundational services like identity, management, security and operations.  This program helps customers find and deploy a validated Partner solution that addresses specific customer use cases while providing deep visibility and control of AWS native service integration.</p>
+<p>Utilizing AWS Built-In Partner software, customers can trust that the ISV product they are evaluating has been independently verified by AWS.</p>
+<p>The program is focused across the four foundational service domains [Security, Identity, Management &amp; Operations]. Partners who have existing IaC assets to deploy their solution and are part of the Security and CloudOps competency will be considered for a pilot to validate the value added by the ABI program.</p>
+<p>For example, when a customer subscribes to an ISV partner product, they need to follow a series of steps in order to transition from the subscription phase to a fully functional one. These steps include a combination of manual and IaC steps. Enabling services like <a href="https://aws.amazon.com/guardduty/" target="_blank">Amazon GuardDuty</a>, <a href="https://aws.amazon.com/security-hub/" target="_blank">AWS Security Hub</a>, <a href="https://aws.amazon.com/inspector/" target="_blank">Amazon Inspector</a>, and <a href="https://aws.amazon.com/cloudtrail/" target="_blank">AWS CloudTrail</a> before performing additional steps like adding AWS accounts, integrating with CloudTrail events and more on partner SaaS product.</p>
+<p>With ABI packages, the partner leverages the AWS provided templates to enable AWS Services and add their additional logic on top of it. The customer can use these packages to reach full functionality in hours instead of days or weeks.</p>
+<h2 id="partner-workflow">Partner Workflow</h2>
+<p>AWS provides modules to enable AWS foundational services based on <a href="https://docs.aws.amazon.com/prescriptive-guidance/latest/security-reference-architecture/welcome.html" target="_blank">AWS Security Reference Architecture (AWS SRA)</a> guidelines.</p>
+<p>Partners can pick these modules and add additional logic to perform remaining steps like enabling partner integration in Security Hub or registering AWS account to partner product.</p>
+<p>Once the solution is built, the partner can submit a Git Pull Request (PR) to the repository created for this project.</p>
+<p>All the PRs will go through a set of auto validations built-in to the pipelines. On successful completion of validation, the code is merged to the main branch of the repository, and published to other pre-defined targets.</p>
+<p>
+<a href="#image-e4f014315eba556058871e9e9fa880f3" class="lightbox-link">
+<img src="../images/partner_workflow.png" alt="Partner Workflow" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-e4f014315eba556058871e9e9fa880f3">
+<img src="../images/partner_workflow.png" alt="Partner Workflow" class="lightbox-image" loading="lazy">
+</a></p>
+<h2 id="customer-workflow-subjected-to-change">Customer workflow [Subjected to change]</h2>
+<p>
+<a href="#image-595ce86ddd3a0860681b3a83fb95df0c" class="lightbox-link">
+<img src="../images/customer_workflow.png" alt="Customer Workflow" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-595ce86ddd3a0860681b3a83fb95df0c">
+<img src="../images/customer_workflow.png" alt="Customer Workflow" class="lightbox-image" loading="lazy">
+</a></p>
+<h3 id="terminologies">Terminologies</h3>
+<ul>
+<li><strong>ABI :</strong>   AWS Built In (ABI)  as explained above.</li>
+<li><strong>ABI Modules :</strong> The GitHub repositories based of AWS SRA, which provide templates for enabling AWS foundational services like CloudTrail, GuardDuty, SecurityHub and more security services.</li>
+<li><strong>ABI Projects :</strong> The GitHub repositories built by Partners in partnership with AWS. While building these projects, partners leverage ABI Modules provided to enable AWS services as needed before creating partner specific assets. The project contains 1\ IaC templates to automate enablement of both AWS and Partner services, 2\ Wrappers for most common formats like CfCT manifest, SC Baselines and more to allow customers to easily pick and choose from the services available. For Pilot, we will focus only on including CfCT manifest file in the package.</li>
+<li><strong>Project :</strong> This is a GitHub repository for both ABI modules and ABI Projects</li>
+<li><strong>Project Owner :</strong> The aliases of the 2‑5 Amazonians that will be granted administrative privileges to your AWS Builder Platform project.</li>
+<li><strong>Project Contributor :</strong> Contributors are those that have been granted access to the project&rsquo;s code repository and can submit a Git Pull Request(PR). All non-AWS contributors will have read-only access to the repository. AWS contributors will have read/write access to the repository.</li>
+</ul>
+<h3 id="architecture">Architecture</h3>
+<p>
+<a href="#image-dd65cbb0c8008be5fd84496ed732e6d6" class="lightbox-link">
+<img src="../images/abi-architecture.png" alt="ABI Architecture" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-dd65cbb0c8008be5fd84496ed732e6d6">
+<img src="../images/abi-architecture.png" alt="ABI Architecture" class="lightbox-image" loading="lazy">
+</a></p>
+<p>When you submit a PR, there are set of automatic tests and manual validations that are performed. Following are the series of events that happen after PR.</p>
+<ol>
+<li><strong>Static tests</strong> are executed. The static tests include lint checkers, scan the templates and code provided against a set of pre- and custom-defined security rules to identify potential vulnerabilities. Tools used to run static tests are listed in <a href="docs/how-to-build-abi-project/index.html">How to build an ABI project</a> section.</li>
+<li><strong>Functional tests</strong> on sucessful completion of static tests. You can comment <code>/do-e2e-tests</code> in the PR to kickoff the functional tests. The functional tests, deploys the tempaltes in the multi-account AWS environment associated with this repository. Tools used to run functional tests are listed in <a href="docs/how-to-build-abi-project/index.html">How to build an ABI project</a> section.</li>
+<li><strong>Bot Approval</strong> is provided on successful completion of both static and functional tests.</li>
+<li><strong>Human Approval</strong> by one of the AWS personal who have write permissions to the repository after sucessful PR review.</li>
+<li><strong>Merge:</strong> PR is merged to the main branch after clearing all 4 steps above.</li>
+<li><strong>Publish:</strong> the code is then automatically published to the targets.</li>
+</ol>
+<h4 id="sample-project-layout">Sample project layout</h4>
+<pre tabindex="0"><code>.
+├── CODEOWNERS
+├── CODE_OF_CONDUCT.md
+├── LICENSE
+├── NOTICE.txt
+├── README.md
+├── VERSION
+├── docs
+├── images
+├── lambda_functions
+│   └── source
+│       └── enable_integrations
+├── scripts
+│   ├── cleanup_config.json
+│   ├── cleanup_config.py
+├── submodules  ## ABI Modules
+│   └── cfn-abi-aws-securityhub
+│       ├── README.md
+│       ├── lambda_functions
+│       ├── scripts
+│       └── templates
+└── templates  ## Partner build templates
+    ├── abi-enable-partner1-securityhub-integration.yaml
+    └── enable_integrations
+        └── partner1-enable-integrations.yaml
+</code></pre><h4 id="how-to-get-a-github-repository">How to get a GitHub repository</h4>
+<p>Work with with your AWS PSA contact to request for a repository. Once the project is approved, an ABI standard repository is created and invitation is shared with you.</p>
+<p>You need to Accept the invitation to get access to the repository.</p>
+<h4 id="how-to-build-an-abi-project">How to build an ABI project</h4>
+<p><a href="../how-to-build-abi-project/index.html">CLICK HERE</a> for steps.</p>
+<h4 id="abi-deployment-modes">ABI deployment modes</h4>
+<ul>
+<li>Launch the <a href="../launch-using-cloudformation/index.html">CloudFormation Template in the Management Account</a>.</li>
+<li>Launch using <a href="../launch-using-cfct/index.html">Customizations for Control Tower (CfCT)</a>.</li>
+</ul>
+<h2 id="things-to-know">Things to know</h2>
+<ul>
+<li>For Pilot, the existing modules are expected to operate only in AWS Control Tower environments. Hence, the modules provided as part of ABI should be deployed only in the <em><strong>Home Region of AWS Control Tower</strong></em>.</li>
+<li>Follow the instructions in this <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html" target="_blank">link</a> to enable trusted access for AWS CloudFormation StackSets with AWS Organizations via AWS CloudFormation StackSets console.</li>
+<li>Granting write permissions to GitHub repository is disabled by ABP when you add external contributors. This is required by AWS Security.</li>
+<li>For Pilot, the GitHub repositories remain private and GitHub IDs will be added manually.</li>
+</ul>
+<h2 id="cleanup-instructions">Cleanup Instructions</h2>
+<p><a href="../cleanup-instructions/index.html">CLICK HERE</a> for additional instructions.</p>
+<h2 id="cost-considerations">Cost Considerations</h2>
+<p><a href="../cost-considerations/index.html">CLICK HERE</a> for steps.</p>
+<h2 id="faqs">FAQs</h2>
+<p><a href="../faqs/index.html">CLICK HERE</a> for additional information.</p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+        </div>
+      </main>
+    </div>
+    <aside id="sidebar" class="default-animation">
+      <div id="header-wrapper" class="default-animation">
+        <div id="header" class="default-animation">
+
+  
+    <div>
+      <a id="logo" href='../' title='Go to homepage'>
+        <figure>
+          <img
+            alt="AWS logo"
+            height="100px"
+            src="../images/logo.svg"
+            style="vertical-align:middle"
+          />
+        </figure>
+      </a>
+    </div>
+  
+
+
+        </div>
+        <form action="../search.html" method="get"><div class="searchbox default-animation">
+          <button type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+          <label class="a11y-only" for="search-by">Search</label>
+          <input data-search-input id="search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+          <span data-search-clear=""><i class="fas fa-times"></i></span>
+        </div></form>
+        <script>
+          var contentLangs=['en'];
+        </script>
+        <script src="../js/auto-complete.js?1684125441" defer></script>
+        <script src="../js/lunr/lunr.min.js?1684125441" defer></script>
+        <script src="../js/lunr/lunr.stemmer.support.min.js?1684125441" defer></script>
+        <script src="../js/lunr/lunr.multi.min.js?1684125441" defer></script>
+        <script src="../js/lunr/lunr.en.min.js?1684125441" defer></script>
+        <script src="../js/search.js?1684125441" defer></script>
+      </div>
+      <div id="content-wrapper" class="highlightable">
+        <ul class="topics enlarge morespace collapsible-menu">
+          <li data-nav-id="/overview/index.html" class="active"><a class="padding" href="../overview/index.html">Overview</a></li>
+          <li data-nav-id="/how-to-build-abi-project/index.html" class=""><a class="padding" href="../how-to-build-abi-project/index.html">How to build an ABI project</a></li>
+          <li data-nav-id="/deployment-options/index.html" class="alwaysopen"><input type="checkbox" id="section-169c776514e0a8ebbb16d456ca2b4a01" aria-controls="subsections-169c776514e0a8ebbb16d456ca2b4a01" checked><label for="section-169c776514e0a8ebbb16d456ca2b4a01"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Deployment Options</span></label><a class="padding" href="../deployment-options/index.html">Deployment Options</a><ul id="subsections-169c776514e0a8ebbb16d456ca2b4a01" class="morespace collapsible-menu">
+          <li data-nav-id="/deployment-options/launch-using-cloudformation/index.html" class=""><a class="padding" href="../deployment-options/launch-using-cloudformation/index.html">Launch ABI using CloudFormation Templates</a></li>
+          <li data-nav-id="/deployment-options/launch-using-cfct/index.html" class=""><a class="padding" href="../deployment-options/launch-using-cfct/index.html">Launch ABI using Customizations for Control Tower (CfCT)</a></li></ul></li>
+          <li data-nav-id="/cost-considerations/index.html" class=""><a class="padding" href="../cost-considerations/index.html">Cost considerations</a></li>
+          <li data-nav-id="/cleanup-instructions/index.html" class=""><a class="padding" href="../cleanup-instructions/index.html">Cleanup Instructions</a></li>
+          <li data-nav-id="/available_modules/index.html" class=""><a class="padding" href="../available_modules/index.html">ABI Modules list</a></li>
+          <li data-nav-id="/faqs/index.html" class=""><a class="padding" href="../faqs/index.html">FAQs</a></li>
+        </ul>
+        <div id="shortcuts">
+          <div class="nav-title padding">More</div>
+          <ul class="space">
+            <li><a class="padding" href="../categories/index.html"><i class="fas fa-layer-group"></i> Categories</a></li>
+            <li><a class="padding" href="../tags/index.html"><i class="fas fa-tags"></i> Tags</a></li>
+          </ul>
+        </div>
+        <div class="padding footermargin footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVariantSwitch showFooter"></div>
+        <hr class="padding default-animation footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVariantSwitch showFooter">
+        <div id="prefooter" class="footerLangSwitch footerVariantSwitch footerVisitedLinks showVariantSwitch">
+          <ul>
+            <li id="select-language-container" class="footerLangSwitch">
+              <div class="padding select-container">
+                <i class="fas fa-language fa-fw"></i>
+                <span>&nbsp;</span>
+                <div class="select-style">
+                  <label class="a11y-only" for="select-language">Language</label>
+                  <select id="select-language" onchange="location = baseUri + this.value;">
+                  </select>
+                </div>
+                <div class="select-clear"></div>
+              </div>
+            </li>
+            <li id="select-variant-container" class="footerVariantSwitch showVariantSwitch">
+              <div class="padding select-container">
+                <i class="fas fa-paint-brush fa-fw"></i>
+                <span>&nbsp;</span>
+                <div class="select-style">
+                  <label class="a11y-only" for="select-variant">Theme</label>
+                  <select id="select-variant" onchange="window.variants && variants.changeVariant( this.value );">
+                    <option id="light-theme" value="light-theme" selected>Light Theme</option>
+                    <option id="dark-theme" value="dark-theme">Dark Theme</option>
+                  </select>
+                </div>
+                <div class="select-clear"></div>
+              </div>
+              <script>window.variants && variants.markSelectedVariant();</script>
+            </li>
+            <li class="footerVisitedLinks"><button class="padding" onclick="clearHistory();"><i class="fas fa-history fa-fw"></i><span>&nbsp;</span>Clear History</button></li>
+          </ul>
+        </div>
+        <div id="footer" class="footerFooter showFooter"><hr />
+<div>
+  <p id="copyright">&copy; 2023, Amazon Web Services, Inc. or its affiliates. All rights reserved.</p>
+  <ul>
+    <li>
+      <a
+        href="https://aws.amazon.com/privacy/?nc1=f_pr"
+        rel="noopener"
+        target="_blank"
+      >
+        Privacy
+      </a>
+    </li>
+    <li>
+      <a
+        href="https://aws.amazon.com/terms/?nc1=f_pr"
+        rel="noopener"
+        target="_blank"
+      >
+        Site Terms
+      </a>
+    </li>
+  </ul>
+</div>
+
+        </div>
+      </div>
+    </aside>
+    <script src="../js/clipboard.min.js?1684125441" defer></script>
+    <script src="../js/perfect-scrollbar.min.js?1684125441" defer></script>
+    <script src="../js/theme.js?1684125441" defer></script>
+  </body>
+</html>

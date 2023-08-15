@@ -7,5 +7,6 @@ PROJECT_TYPE_PATH=${BASE_PATH}/projecttype
 
 cd ${PROJECT_PATH}
 
-cfn-lint templates/*.yaml
+find templates -name *.yaml -o -name *.yml -o -name *.json | xargs cfn-lint
 taskcat lint
+

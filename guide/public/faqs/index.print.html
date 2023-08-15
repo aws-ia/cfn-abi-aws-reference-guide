@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.111.3">
+    <meta name="generator" content="Relearn 5.12.5">
+    <meta name="description" content="Frequently asked questions">
+    <meta name="author" content="The AWS Integration &amp; Automation team">
+    <title>FAQs :: </title>
+    <link href="https://docs.builder-toolkit.partner.aws.dev/docs-abp-project-type/faqs/index.html" rel="canonical" type="text/html" title="FAQs :: ">
+    <link href="../faqs/index.xml" rel="alternate" type="application/rss+xml" title="FAQs :: ">
+  
+    <link rel="icon" href="../images/logo.svg" />
+  
+
+
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../css/fontawesome-all.min.css?1684125441" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../css/fontawesome-all.min.css?1684125441" rel="stylesheet"></noscript>
+    <link href="../css/nucleus.css?1684125441" rel="stylesheet">
+    <link href="../css/auto-complete.css?1684125441" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../css/auto-complete.css?1684125441" rel="stylesheet"></noscript>
+    <link href="../css/perfect-scrollbar.min.css?1684125441" rel="stylesheet">
+    <link href="../css/fonts.css?1684125441" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../css/fonts.css?1684125441" rel="stylesheet"></noscript>
+    <link href="../css/theme.css?1684125441" rel="stylesheet">
+    <link href="../css/theme-light-theme.css?1684125441" rel="stylesheet" id="variant-style">
+    <link href="../css/variant.css?1684125441" rel="stylesheet">
+    <link href="../css/print.css?1684125441" rel="stylesheet" media="print">
+    <link href="../css/format-print.css?1684125441" rel="stylesheet">
+    <link href="../css/ie.css?1684125441" rel="stylesheet">
+    <script src="../js/url.js?1684125441"></script>
+    <script src="../js/variant.js?1684125441"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../index.search.js";
+      var root_url="../";
+      var baseUri=root_url.replace(/\/$/, '');
+      // translations
+      window.T_Copy_to_clipboard = 'Copy to clipboard';
+      window.T_Copied_to_clipboard = 'Copied to clipboard!';
+      window.T_Copy_link_to_clipboard = 'Copy link to clipboard';
+      window.T_Link_copied_to_clipboard = 'Copied link to clipboard!';
+      window.T_No_results_found = 'No results found for \u0022{0}\u0022';
+      window.T_N_results_found = '{1} results found for \u0022{0}\u0022';
+      // some further base stuff
+      var baseUriFull='https:\/\/docs.builder-toolkit.partner.aws.dev\/docs-abp-project-type/';
+      window.variants && variants.init( [ 'light-theme', 'dark-theme' ] );
+    </script>
+
+
+<link
+  href="../css/style.css?1684125441"
+  rel="stylesheet"
+>
+
+
+
+
+
+  </head>
+  <body class="mobile-support print" data-url="../faqs/index.html">
+    <div id="body" class="default-animation">
+      <div id="sidebar-overlay"></div>
+      <div id="toc-overlay"></div>
+      <nav id="topbar" class="highlightable">
+        <div>
+          <div id="breadcrumbs">
+            <span id="sidebar-toggle-span">
+              <a href="#" id="sidebar-toggle" class="topbar-link" title='Menu (CTRL+ALT+n)'><i class="fas fa-bars fa-fw"></i></a>
+            </span>
+            <ol class="links" itemscope itemtype="http://schema.org/BreadcrumbList">
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../index.html"><span itemprop="name">AWS Built In - Reference Guide</span></a><meta itemprop="position" content="1"> > </li>
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">FAQs</span><meta itemprop="position" content="2"></li>
+            </ol>
+          </div>
+        </div>
+      </nav>
+      <main id="body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <div id="head-tags">
+          </div>
+          <article class="default">
+<h1 id="faqs">FAQs</h1>
+
+<h2 id="how-to-add-internal-aws-contributors">How to add internal AWS contributors?</h2>
+<p>Access to the repositories are controlled from the builder platform interface. Refer to <a href="https://yet-to-be-built" target="_blank">ABP usage guide</a> for steps.</p>
+<h2 id="how-to-add-contributors-from-partner-side">How to add contributors from partner side?</h2>
+<p>Use the same mechanism mentioned above to manage access to the repository. If you are a partner trying to access these repos, reach out your assigned AWS PSA.</p>
+<h2 id="how-do-i-add-secrets-to-the-parameters-in-the-taskcat-file">How do I add secrets to the parameters in the taskcat file?</h2>
+<p>Our preferred way is to pass the parameter as SSM_Parameter value and pass it as <a href="https://aws-ia.github.io/taskcat/docs/usage/PSUEDO_PARAMETERS/" target="_blank">$[taskcat_ssm_/path/to/ssm/parameter]</a> as a value. While testing locally, make sure to <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html" target="_blank">create the parameter</a> in your account/region that you are testing. When you check-in the code, reach out to your AWS contact to facilate this setup in your test environment.</p>
+<h2 id="why-is-my-ash-tool-failing">Why is my ASH tool failing?</h2>
+<p>A: Please make sure you have docker running in your local environment before executing ash tool. There were issues reported with podman, please use docker while we investigate the issue.</p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+        </div>
+      </main>
+    </div>
+    <script src="../js/clipboard.min.js?1684125441" defer></script>
+    <script src="../js/perfect-scrollbar.min.js?1684125441" defer></script>
+    <script src="../js/theme.js?1684125441" defer></script>
+  </body>
+</html>

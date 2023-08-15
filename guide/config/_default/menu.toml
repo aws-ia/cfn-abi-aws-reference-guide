@@ -1,0 +1,9 @@
+[[shortcuts]]
+name = '<i class="fas fa-layer-group"></i> Categories'
+url = '/categories'
+weight = 1
+
+[[shortcuts]]
+name = '<i class="fas fa-tags"></i> Tags'
+url = '/tags'
+weight = 2
