@@ -1,7 +1,7 @@
 ---
 weight: 11
-title: Additional Resources
-description: Additional Resources
+title: Additional resources
+description: Additional resources.
 ---
 
 ## Partner documentation
@@ -22,4 +22,4 @@ description: Additional Resources
 * [Code repository for AWS SRA examples](https://docs.aws.amazon.com/prescriptive-guidance/latest/security-reference-architecture/code-repo.html)
 
 
-**Next:** Choose [Troubleshooting](/troubleshooting/index.html).
+**Next:** See [Troubleshooting](/troubleshooting/index.html) for common issues related to the <project-name>.
