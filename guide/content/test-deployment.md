@@ -1,7 +1,7 @@
 ---
 weight: 10
 title: Test the deployment
-description: Test the deployment
+description: Steps to test the deployment of the <project-name> ABI solution.
 ---
 
 ## Step-1
@@ -11,4 +11,4 @@ description: Test the deployment
 ## Step-3
 
 
-**Next:** Choose [Additonal Resources](/additional-resources/index.html) to get started.
+**Next:** See [Additional resources](/additional-resources/index.html) to explore more documentation and references.
