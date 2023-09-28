@@ -1,14 +1,14 @@
 ---
 weight: 2
 title: Overview
-description: 
+description: Overview of the <partner-product-name> ABI.
 ---
 
+This [AWS Built-In](https://aws.amazon.com/builtin) (ABI) solution deploys the <partner-product-name> integration for AWS Organizations, on the AWS Cloud. It's for <persoma-1> and <persona-2> professionals who want to provide <functionality details> across multiple AWS accounts. To learn more, refer to the [Partner HTTP link](https://partner-name.com/link).
 
-This ABI deploys <Partner project name> Integrations for AWS Organizations on the AWS Cloud. It’s for <persona-1> and <persona-2> that want to provide <partner-product-functionality> across multiple AWS accounts. If you are unfamiliar with AWS Built In, refer to the [AWS Built in](https://aws.amazon.com/builtin).
+**NOTE:** Deploying this ABI solution does not guarantee an organization’s compliance with any laws, certifications, policies, or other regulations.
 
-Deploying this ABI package does not guarantee an organization’s compliance with any laws, certifications, policies, or other regulations.
-
+### Solution Overview
 
 [Expand solution overview here]
 
@@ -16,6 +16,7 @@ Deploying this ABI package does not guarantee an organization’s compliance wit
 
 [Partner-product-name-in-aws-marketplace](https://aws.amazon.com/marketplace/pp/prodview-<marketplace-id>)
 
+<<<<<<< before updating
 **Next:** Choose [Terminologies](/terminologies/index.html) to get started.
 =======
 The AWS Built-in program is a differentiation program that validates Partner solutions which have automated their solution integrations with relevant AWS foundational services like identity, management, security and operations.  This program helps customers find and deploy a validated Partner solution that addresses specific customer use cases while providing deep visibility and control of AWS native service integration.
@@ -133,3 +134,6 @@ You need to Accept the invitation to get access to the repository.
 ## FAQs
 
 [CLICK HERE](/faqs/index.html) for additional information. 
+=======
+**Next:** See [Terminologies](/terminologies/index.html) to familiarize yourself with key terms and concepts used throughout this guide.
+>>>>>>> after updating
