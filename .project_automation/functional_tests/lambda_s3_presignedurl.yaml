@@ -1,0 +1,61 @@
+Resources:
+  # IAM Role for Lambda GenerateS3PresignedURLFunction execution role
+  GenerateS3PresignedURLFunctionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: 'GenerateS3PresignedURLFunctionRole'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: 'Allow'
+            Principal:
+              Service: 'lambda.amazonaws.com'
+            Action: 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Description: 'Execution Role for Lambda GenerateS3PresignedURLFunction'
+
+  # IAM Role for Lambda to Generate Presigned URLs
+  LambdaS3PresignRole:
+    Type: 'AWS::IAM::Role'
+    DependsOn:
+         - "GenerateS3PresignedURLFunctionRole"
+    Properties:
+      RoleName: 'LambdaS3PresignRole'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: 'Allow'
+            Principal:
+              Service: 'lambda.amazonaws.com'
+            Action: 'sts:AssumeRole'
+          - Effect: 'Allow'
+            Principal:
+              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:role/GenerateS3PresignedURLFunctionRole"
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: 'S3PresignPolicy'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: 'Allow'
+                Action:
+                  - 's3:GetObject'
+                Resource: !Sub "arn:aws:s3:::scoutsuite-results-aws-${AWS::AccountId}/*"
+      Description: 'Role for Lambda to generate presigned URLs for S3 objects'
+
+  # Lambda Function for Generating S3 Presigned URLs
+  GenerateS3PresignedURLFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: 'GenerateS3PresignedURLFunction'
+      Handler: 'lambda_function.lambda_handler'
+      Role: !GetAtt GenerateS3PresignedURLFunctionRole.Arn
+      Code:
+        # Point this to your S3 bucket containing the zipped code or specify a local path.
+        S3Bucket: !Sub "scoutsuite-results-aws-${AWS::AccountId}"
+        S3Key: "lambda_s3_presignedurl/package/lambda_function.zip"
+      Runtime: 'python3.8'
+      Description: 'A function to generate presigned URLs for S3 objects'
+      Timeout: 15
+      MemorySize: 128
