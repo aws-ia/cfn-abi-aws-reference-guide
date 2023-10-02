@@ -13,7 +13,7 @@ Partners can pick these modules and add additional logic to perform remaining st
 
 Once the solution is built, the partner can submit a Git Pull Request (PR) to the repository created for this project. 
 
-All the PRs will go through a set of auto validations built-in to the pipelines. On successful completion of validation, the code is merged to the main branch of the repository, and published to other pre-defined targets.
+All the PRs will go through a set of auto validations built-in to the pipelines. On successful completion of validation, the code is merged to the main branch of the repository, and published.
 
 ![Partner Workflow](/images/partner_workflow.png)
 

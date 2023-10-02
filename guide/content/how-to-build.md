@@ -131,10 +131,10 @@ The below example refers to steps followed to create the sample ABI project in t
         pSRASourceS3BucketName: $[taskcat_autobucket]
         pSRASourceS3BucketNamePrefix: $[taskcat_project_name]
         pSRAS3BucketRegion: us-east-1  # Bucket region. Keep it to us-east-1 as all the resources are deployed in the region.
-        # ApiKey: $[taskcat_ssm_/path/to/ssm/parameter], update `taskcat_ssm_/path/to/ssm/parameter` as needed (^^)
+        # ApiKey: $[taskcat_ssm_/path/to/ssm/parameter], update `taskcat_ssm_/path/to/ssm/parameter` as needed (^^).
     ```
 
-    | (^^) **WARNING:** Do not include secrets like API Keys and Passwords in the parameters section of `.taskcat.yml` file. Work with your AWS contact to securely make them available in the test environments.|
+    | (^^) **WARNING:** Do not include secrets like API Keys and Passwords in the parameters section of `.taskcat.yml` file. Refer to [PSUEDO_PARAMETERS](https://aws-ia.github.io/taskcat/docs/usage/PSUEDO_PARAMETERS/). Work with your AWS contact to securely make them available in the test environments.|
     | --- |
 
 6. On successful completion of both static and functional tests in your local environment, publish the [Pull Request(PR)](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests).

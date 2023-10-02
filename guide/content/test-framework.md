@@ -14,11 +14,11 @@ Below are the series of events that happen when you submit a PR:
 2. **Static tests** are executed. The static tests include lint checkers, and scan templates/code provided against a set of pre- and custom defined security rules to identify potential vulnerabilities. Tools used are listed in the [How to build an ABI project](/how-to-build/index.html) section.
 **PS:** Any errors on the Internal and Static tests will be reported as comments on the PR. You need to choose `Details` to view execution information. 
 3. **Human verification** of the code by assigned AWS Partner Solutions Architects (PSA) team.
-4. **Functional tests** on successful completion of static tests and manual review, AWS PSA(*^*) kickoff functional tests by commenting `/do-e2e-tests` in the PR. The functional tests, deploys the tempaltes in the multi-account AWS environment associated with this repository. Tools used are listed below.
+4. **Functional tests** on successful completion of static tests and manual review, AWS PSA(*^*) kickoff functional tests by commenting `/do-e2e-tests` in the PR. The functional tests, deploy the templates in the multi-account AWS environment associated with this repository. Tools used are listed below.
 5. **Bot Approval** will be provided on successful completion of both static and functional tests. 
-6. **Human Approval**. AWS PSA(*^*) assgined to this project will review the test results of the functional tests and other security scanners and provide approval.
+6. **Human Approval**. AWS PSA(*^*) assigned to this project will review the test results of the functional tests and other security scanners and provide approval.
 7. AWS PSA(*^*) will **Merge** the branch to the `main` branch once the above steps are cleared.
-8. **Publish** the code is then automatically kicked off to the targets configured for each project.
+8. Unless a partner opts-out, the **Publish** step will publish the code automatically to the targets configured for each project. If you do not want the repositories to be made public, reach out to your AWS PSA to opt-out.
 
 *(^) with write permissions to the repository*
 
