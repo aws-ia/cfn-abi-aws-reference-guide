@@ -14,7 +14,7 @@ REPO_NAME=$(git config --get remote.origin.url | cut -d '/' -f5 | cut -d '.' -f1
 VERSION=$(cat VERSION)
 
 BASE_URL="this would be the path to s3 bucket/${REPO_NAME}/"
-S3_URI="s3://aws-abi-pilot/guide/${REPO_NAME}/"
+S3_URI="s3://aws-abi/guide/${REPO_NAME}/"
 
 print_header() {
   printf "\n\n%s\n" "$*"
@@ -36,13 +36,13 @@ printf "\nPublished at ${BASE_URL}\n"
 
 cd ${PROJECT_PATH}
 
-taskcat upload --bucket-name aws-abi-pilot --object-acl public-read
+taskcat upload --bucket-name aws-abi --object-acl public-read
 
 # cd ${PROJECT_PATH}/guide
 # hugo
-# aws s3 cp --recursive public s3://aws-abi-pilot/docs-preview/ --acl public-read
+# aws s3 cp --recursive public s3://aws-abi/docs-preview/ --acl public-read
 # 
-# echo "docs published here: s3://aws-abi-pilot/docs-preview/"
+# echo "docs published here: s3://aws-abi/docs-preview/"
 # 
 # if [ -n "${BASE_PATH}" ]
 # then
