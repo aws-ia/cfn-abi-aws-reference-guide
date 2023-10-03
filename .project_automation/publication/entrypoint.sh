@@ -13,7 +13,7 @@ PUBLIC_PATH=./public
 REPO_NAME=$(git config --get remote.origin.url | cut -d '/' -f5 | cut -d '.' -f1)
 VERSION=$(cat VERSION)
 
-BASE_URL="this would be the path to s3 bucket/${REPO_NAME}/"
+BASE_URL="https://aws-abi.s3.amazonaws.com/${REPO_NAME}/guide/public/index.html"
 S3_URI="s3://aws-abi/guide/${REPO_NAME}/"
 
 print_header() {
