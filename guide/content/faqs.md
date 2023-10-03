@@ -1,5 +1,5 @@
 ---
-weight: 100
+weight: 10
 title: FAQs
 description: Frequently asked questions
 ---
