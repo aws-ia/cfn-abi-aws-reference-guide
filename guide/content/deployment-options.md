@@ -19,7 +19,7 @@ While we try to provide as many options as possible, we understand that we may n
 Launch the CloudFormation template provided as part <project-root>/templates/ in the Management Account of the organization.
 
 1. Login to your Management Account to deploy this ABI package.
-2. Choose [Launch Stack](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/new?stackName=launch-abi-sample-partner-integration&templateURL=https://aws-abi-pilot.s3.us-east-1.amazonaws.com/cfn-abi-aws-reference-guide/templates/abi-enable-partner1-securityhub-integration.yaml) and change the AWS Region to your AWS Control Tower home region.
+2. Choose [Launch Stack](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/new?stackName=launch-abi-sample-partner-integration&templateURL=https://aws-abi.s3.us-east-1.amazonaws.com/cfn-abi-aws-reference-guide/templates/abi-enable-partner1-securityhub-integration.yaml) and change the AWS Region to your AWS Control Tower home region.
 3. Choose **Next**.
 4. Type value to **ARN of partner integration to turn on in AWS Security Hub:** `arn:aws:securityhub:$[taskcat_current_region]::product/cloud-custodian/cloud-custodian` and leave the remaining values default.
 5. Choose both the **Capabilities** and select **Submit** to launch the stack.
@@ -47,13 +47,13 @@ To deploy this sample partner integration page using CfCT solution, add the foll
 ```yaml
 resources:
   - name: sra-enable-partner1-solution
-    resource_file: https://aws-abi-pilot.s3.us-east-1.amazonaws.com/cfn-abi-aws-reference-guide/templates/abi-enable-partner1-securityhub-integration.yaml
+    resource_file: https://aws-abi.s3.us-east-1.amazonaws.com/cfn-abi-aws-reference-guide/templates/abi-enable-partner1-securityhub-integration.yaml
     deploy_method: stack_set
     parameters:
       - parameter_key: pProductArn
         parameter_value: arn:aws:securityhub:us-east-1::product/cloud-custodian/cloud-custodian
       - parameter_key: pSRASourceS3BucketName
-        parameter_value: aws-abi-pilot
+        parameter_value: aws-abi
       - parameter_key: pSRAStagingS3KeyPrefix
         parameter_value: cfn-abi-aws-reference-guide
     deployment_targets:
