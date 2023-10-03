@@ -102,7 +102,7 @@ Resources:
     Properties:
       TemplateURL: !Sub https://${pSRASourceS3BucketName}.s3.${pSRAS3BucketRegion}.${AWS::URLSuffix}/${pSRAStagingS3KeyPrefix}/submodules/cfn-abi-aws-cloudtrail/templates/sra-cloudtrail-enable-in-org-ssm.yaml
       Parameters:
-        pSRASourceS3BucketName: aws-abi-pilot
+        pSRASourceS3BucketName: aws-abi
         pSRAStagingS3KeyPrefix: cfn-abi-aws-cloudtrail
         pEnableS3DataEvents: !Ref pEnableS3DataEvents
       Tags:
