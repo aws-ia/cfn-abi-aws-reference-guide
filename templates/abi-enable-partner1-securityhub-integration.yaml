@@ -1,7 +1,3 @@
-########################################################################
-# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-# SPDX-License-Identifier: MIT-0
-########################################################################
 AWSTemplateFormatVersion: 2010-09-09
 Description:
   This template simulates a sample partner integration by leveraging an ABI module.
@@ -12,12 +8,12 @@ Metadata:
       - Label:
           default: General Properties
         Parameters:
-          - pSRASolutionVersion
           - pSRASourceS3BucketName
           - pSRAStagingS3KeyPrefix
           - pSRAS3BucketRegion
           - pSRAAlarmEmail
-
+          - pRepoURL
+          - pRepoBranch
       - Label:
           default: Partner Integration details
         Parameters:
@@ -79,16 +75,25 @@ Metadata:
         default: Region Linking Mode
       pSRAAlarmEmail:
         default: (Optional) SRA Alarm Email
-      pSRASolutionVersion:
-        default: SRA Solution Version
       pSRASourceS3BucketName:
         default: SRA Source S3 Location
       pSRAStagingS3KeyPrefix:
         default: SRA Source Key
       pSRAS3BucketRegion:
         default: SRA Bucket Region
-
+      pRepoURL:
+        default: URL of the AWS SRA Repository
+      pRepoBranch:
+        default: A tag version to use with in the SRA repository
 Parameters:
+  pRepoURL:
+    Default: "https://github.com/aws-samples/aws-security-reference-architecture-examples.git"
+    Description: AWS Security Reference Architecture examples repository URL
+    Type: String
+  pRepoBranch:
+    Default: "tags/v3.0.4"
+    Description: SRA version to tag
+    Type: String
   pProductArn:
     AllowedPattern: '^$|^arn:(aws[a-zA-Z-]*){1}:securityhub:[a-z0-9-]+:(\s*|\d{12}):product/[a-zA-Z0-9-.]*/[a-zA-Z0-9-.]*$'
     ConstraintDescription: 'Key ARN example:  arn:aws:securityhub:us-east-1::product/threatmodeler-software/threatmodeler'
@@ -121,9 +126,9 @@ Parameters:
       Key for encryption.
     Type: String
   pDisableSecurityHub:
-    AllowedValues: ['true', 'false']
-    Default: 'false'
-    Description: Update to 'true' to disable Security Hub in all accounts and regions before deleting the stack.
+    AllowedValues: ['Yes', 'No']
+    Default: 'No'
+    Description: Update to 'Yes' to disable Security Hub in all accounts and regions before deleting the stack.
     Type: String
   pEnableCISStandard:
     AllowedValues: ['true', 'false']
@@ -191,11 +196,6 @@ Parameters:
     AllowedPattern: ^[a-z][a-z]-[a-z]*-[0-9]*$
     Type: String
     Default: us-east-1
-  pSRASolutionVersion:
-    AllowedValues: [v1.5]
-    Default: v1.5
-    Description: The SRA solution version. Used to trigger updates on the nested StackSets.
-    Type: String
 
 Resources:
   rSecurityHubEnableInOrg:
@@ -203,10 +203,11 @@ Resources:
     DeletionPolicy: Delete
     UpdateReplacePolicy: Delete
     Properties:
-      TemplateURL: !Sub https://${pSRASourceS3BucketName}.s3.${pSRAS3BucketRegion}.${AWS::URLSuffix}/${pSRAStagingS3KeyPrefix}/submodules/cfn-abi-aws-securityhub/templates/sra-securityhub-enable-in-org-ssm.yaml
+      TemplateURL: !Sub "https://${pSRASourceS3BucketName}.s3.${pSRAS3BucketRegion}.${AWS::URLSuffix}/${pSRAStagingS3KeyPrefix}/submodules/aws-security-reference-architecture-examples/aws_sra_examples/modules/securityhub-org-module/templates/sra-securityhub-org-module-main.yaml"
       Parameters:
         pSRASourceS3BucketName: aws-abi
-        pSRAStagingS3KeyPrefix: cfn-abi-aws-securityhub
+        pRepoURL: !Ref pRepoURL
+        pRepoBranch: !Ref pRepoBranch
         pCISStandardVersion: !Ref pCISStandardVersion
         pComplianceFrequency: !Ref pComplianceFrequency
         pControlTowerRegionsOnly: !Ref pControlTowerRegionsOnly
@@ -221,7 +222,6 @@ Resources:
         pLambdaLogLevel: !Ref pLambdaLogLevel
         pRegionLinkingMode: !Ref pRegionLinkingMode
         pSRAAlarmEmail: !Ref pSRAAlarmEmail
-        pSRASolutionVersion: !Ref pSRASolutionVersion
       Tags:
         - Key: sra-solution
           Value: !Ref pSRAStagingS3KeyPrefix
