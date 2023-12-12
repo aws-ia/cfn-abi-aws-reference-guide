@@ -28,8 +28,6 @@ Metadata:
           - pCISStandardVersion
           - pEnablePCIStandard
           - pRegionLinkingMode
-          - pControlTowerRegionsOnly
-          - pEnabledRegions
 
       - Label:
           default: General Lambda Function Properties
@@ -51,8 +49,6 @@ Metadata:
         default: CIS Standard Version
       pComplianceFrequency:
         default: Frequency to Check for Organizational Compliance
-      pControlTowerRegionsOnly:
-        default: Control Tower Regions Only
       pCreateLambdaLogGroup:
         default: Create Lambda Log Group
       pDisableSecurityHub:
@@ -63,8 +59,6 @@ Metadata:
         default: Enable PCI Standard
       pEnableSecurityBestPracticesStandard:
         default: Enable AWS Foundational Security Best Practices Standard
-      pEnabledRegions:
-        default: (Optional) Enabled Regions
       pLambdaLogGroupKmsKey:
         default: (Optional) Lambda Logs KMS Key
       pLambdaLogGroupRetention:
@@ -113,14 +107,9 @@ Parameters:
     MinValue: 1
     MaxValue: 30
     Type: Number
-  pControlTowerRegionsOnly:
-    AllowedValues: ['true', 'false']
-    Default: 'true'
-    Description: Only enable in the Control Tower governed regions
-    Type: String
   pCreateLambdaLogGroup:
-    AllowedValues: ['true', 'false']
-    Default: 'false'
+    AllowedValues: ['Yes', 'No']
+    Default: 'No'
     Description:
       Indicates whether a CloudWatch Log Group should be explicitly created for the Lambda function, to allow for setting a Log Retention and/or KMS
       Key for encryption.
@@ -134,14 +123,6 @@ Parameters:
     AllowedValues: ['true', 'false']
     Default: 'false'
     Description: Indicates whether to enable the CIS AWS Foundations Benchmark Standard.
-    Type: String
-  pEnabledRegions:
-    AllowedPattern: '^$|^([a-z0-9-]{1,64})$|^(([a-z0-9-]{1,64},)*[a-z0-9-]{1,64})$'
-    ConstraintDescription:
-      Only lowercase letters, numbers, and hyphens ('-') allowed. (e.g. us-east-1) Additional AWS regions can be provided, separated by commas. (e.g.
-      us-east-1,ap-southeast-2)
-    Default: ''
-    Description: (Optional) Enabled regions (AWS regions, separated by commas). Leave blank to enable all regions.
     Type: String
   pEnablePCIStandard:
     AllowedValues: ['true', 'false']
@@ -205,16 +186,13 @@ Resources:
     Properties:
       TemplateURL: !Sub "https://${pSRASourceS3BucketName}.s3.${pSRAS3BucketRegion}.${AWS::URLSuffix}/${pSRAStagingS3KeyPrefix}/submodules/aws-security-reference-architecture-examples/aws_sra_examples/modules/securityhub-org-module/templates/sra-securityhub-org-module-main.yaml"
       Parameters:
-        pSRASourceS3BucketName: aws-abi
         pRepoURL: !Ref pRepoURL
         pRepoBranch: !Ref pRepoBranch
         pCISStandardVersion: !Ref pCISStandardVersion
         pComplianceFrequency: !Ref pComplianceFrequency
-        pControlTowerRegionsOnly: !Ref pControlTowerRegionsOnly
         pCreateLambdaLogGroup: !Ref pCreateLambdaLogGroup
         pDisableSecurityHub: !Ref pDisableSecurityHub
         pEnableCISStandard: !Ref pEnableCISStandard
-        pEnabledRegions: !Ref pEnabledRegions
         pEnablePCIStandard: !Ref pEnablePCIStandard
         pEnableSecurityBestPracticesStandard: !Ref pEnableSecurityBestPracticesStandard
         pLambdaLogGroupKmsKey: !Ref pLambdaLogGroupKmsKey

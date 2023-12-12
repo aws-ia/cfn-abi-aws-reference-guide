@@ -100,10 +100,6 @@
         "Filter" : "sra-common-prerequisites-staging-s3-bucket"
     },
     {
-        "Type" : "STACK",
-        "Filter" : "tCaT-logging-top-level-"
-    },
-    {
         "Type": "STACK",
         "Filter" : "tCaT-enable-securityhub-ssm-"
     },
@@ -112,6 +108,9 @@
         "Filter": "tCaT-stage-sh-content-local-"
     },
     {
+        "Type" : "STACK",
+        "Filter": "tCaT-launch-partner-solution-"
+    },    {
         "Type" : "STACK",
         "Filter": "tCaT-enable-securityhub-in-org-ssm-"
     }

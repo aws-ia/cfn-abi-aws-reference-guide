@@ -17,14 +17,14 @@ The guidelines below don't apply to customers; they only apply to the partners w
 * The GitHub repositories remain private until completion of the initial release.  Any GitHub IDs need to added manually to get access to the repository. Work with your AWS PSA contact to get access to the repository.
 
 
-#### List of available ABI modules
+#### List of available ABI / SRA modules
 
 |      AWS Service Name      |      Repository     |
 | -------------------------- | ------------------- |
-| AWS Security Hub           | [cfn-abi-aws-securityhub](https://github.com/aws-ia/cfn-abi-aws-securityhub) |
-| AWS GuardDuty              | [cfn-abi-amazon-guardduty](https://github.com/aws-ia/cfn-abi-amazon-guardduty) |
-| AWS Control Tower          | [cfn-abi-aws-cloudtrail](https://github.com/aws-ia/cfn-abi-aws-cloudtrail) |
-
+| SRA Modules (MOD_ROOT)           | [aws-security-reference-architecture-examples/aws-sra-examples/modules](https://github.com/aws-samples/aws-security-reference-architecture-examples/tree/main/aws_sra_examples/modules) |
+| AWS Security Hub           | [${MOD_ROOT}/securityhub-org-module](https://github.com/aws-samples/aws-security-reference-architecture-examples/tree/main/aws_sra_examples/modules/securityhub-org-module/templates) |
+| AWS GuardDuty              | [${MOD_ROOT}/guardduty-org-module](https://github.com/aws-samples/aws-security-reference-architecture-examples/tree/main/aws_sra_examples/modules/guardduty-org-module/templates) |
+| AWS Control Tower          | [${MOD_ROOT}/cloudtrail-org-module](https://github.com/aws-samples/aws-security-reference-architecture-examples/tree/main/aws_sra_examples/modules/cloudtrail-org-module/templates) |
 
 
 **Next:** Choose [Common Patterns](/common-patterns/index.html).

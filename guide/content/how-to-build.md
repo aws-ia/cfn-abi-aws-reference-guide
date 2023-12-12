@@ -17,7 +17,7 @@ The below example refers to steps followed to create the sample ABI project in t
     ```
     mkdir submodules
     cd submodules
-    git submodule add https://github.com/aws-ia/cfn-abi-aws-securityhub.git
+    git submodule add https://github.com/aws-samples/aws-security-reference-architecture-examples.git
     ```
     Check here for [List of available ABI Modules](/available_modules/index.html).
 
@@ -55,17 +55,26 @@ The below example refers to steps followed to create the sample ABI project in t
     │   ├── cleanup_config.json
     │   └── cleanup_config.py
     ├── submodules
-    │   └── cfn-abi-aws-securityhub
-    │       ├── lambda_functions
-    │       │   └── source
-    │       ├── scripts
-    │       └── templates
+    │   └── aws-security-reference-architecture-examples
+    │       ├── AWS-SRA-KEY-INFO.md
+    │       ├── CHANGELOG.md
+    │       ├── LICENSE
+    │       ├── README.md
+    │       ├── aws_sra_examples
+    │       │   ├── docs
+    │       │   ├── easy_setup
+    │       │   ├── modules
+    │       │   │   ├── cloudtrail-org-module
+    │       │   │   ├── guardduty-org-module
+    │       │   │   └── securityhub-org-module
+    │       │   ├── quick_setup
+    │       │   ├── solutions
+    │       │   └── utils
+    │       └── pyproject.toml
     └── templates
         ├── abi-enable-partner1-securityhub-integration.yaml
         └── enable_integrations
             └── partner1-enable-integrations.yaml
-
-    83 directories, 394 files
     ```
 
     | **Note:** There is no need to package your lambda source. Taskcat will take care of it and upload it in the path of `lambda_functions/packages/<directory-name/lambda.zip>`. Please make references to your code as needed.|
@@ -114,8 +123,8 @@ The below example refers to steps followed to create the sample ABI project in t
 
     ```bash
     project:
-    name: cfn-abi-aws-cloudtrail. # Change this to your project name
-    owner: vinjak@amazon.com # Change to the owner
+    name: cfn-abi-aws-reference-guide # Change this to your project name
+    owner: aws-built-in-team@amazon.com # Change to the owner
     package_lambda: true # Use this if you have lambda code in the repos
     shorten_stack_name: true # Recommended to use smaller stack names
     s3_regional_buckets: false # Not required if CopyZips are used. Refer to any ABI module for examples.
@@ -123,10 +132,10 @@ The below example refers to steps followed to create the sample ABI project in t
     - us-east-1
 
     tests:
-    enable-cloudtrail-org-level:
+    launch-partner-solution:
         regions:
         - us-east-1  # Control Tower Home region for Pilot
-        template: templates/sra-cloudtrail-enable-in-org-ssm.yaml
+        template: abi-enable-partner1-securityhub-integration.yaml
         parameters:
         pSRASourceS3BucketName: $[taskcat_autobucket]
         pSRASourceS3BucketNamePrefix: $[taskcat_project_name]

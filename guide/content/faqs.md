@@ -12,7 +12,7 @@ All pull requests will go through auto validations and human reviews before it i
 
 ## How to add internal AWS contributors? 
 
-Access to the repositories are controlled from the builder platform interface. Refer to [ABP usage guide](https://yet-to-be-built) for steps.
+Access to the repositories are controlled from the builder platform interface.
 
 ## How to add contributors from partner side?
 

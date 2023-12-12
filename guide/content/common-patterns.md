@@ -27,7 +27,7 @@ The following template snippet is the minimum parameter required to enable Organ
     Type: 'AWS::CloudFormation::Stack'
     Properties:
       TemplateURL: !Sub >-
-        https://${pSRASourceS3BucketName}.s3.${pSRAS3BucketRegion}.${AWS::URLSuffix}/${pSRAStagingS3KeyPrefix}/submodules/cfn-abi-aws-cloudtrail/templates/sra-cloudtrail-enable-in-org-ssm.yaml
+        https://${pSRASourceS3BucketName}.s3.${pSRAS3BucketRegion}.${AWS::URLSuffix}/${pSRAStagingS3KeyPrefix}/submodules/aws-security-reference-architecture-examples/aws_sra_examples/modules/cloudtrail-org-module/templates/sra-cloudtrail-org-module-main.yaml
       Parameters:
         pEnableDataEventsOnly: 'false'
         pSRASourceS3BucketName: !Ref pSRASourceS3BucketName
@@ -44,7 +44,7 @@ The following template snippet is the minimum parameter required to enable Organ
     Type: 'AWS::CloudFormation::Stack'
     Properties:
       TemplateURL: !Sub >-
-        https://${pSRASourceS3BucketName}.s3.${pSRAS3BucketRegion}.${AWS::URLSuffix}/${pSRAStagingS3KeyPrefix}/submodules/cfn-abi-aws-cloudtrail/templates/sra-cloudtrail-enable-in-org-ssm.yaml
+        https://${pSRASourceS3BucketName}.s3.${pSRAS3BucketRegion}.${AWS::URLSuffix}/${pSRAStagingS3KeyPrefix}/submodules/aws-security-reference-architecture-examples/aws_sra_examples/modules/cloudtrail-org-module/templates/sra-cloudtrail-org-module-main.yaml
       Parameters:
         pEnableDataEventsOnly: 'true'
         pSRASourceS3BucketName: !Ref pSRASourceS3BucketName
@@ -100,7 +100,7 @@ Resources:
     DeletionPolicy: Delete
     UpdateReplacePolicy: Delete
     Properties:
-      TemplateURL: !Sub https://${pSRASourceS3BucketName}.s3.${pSRAS3BucketRegion}.${AWS::URLSuffix}/${pSRAStagingS3KeyPrefix}/submodules/cfn-abi-aws-cloudtrail/templates/sra-cloudtrail-enable-in-org-ssm.yaml
+      TemplateURL: !Sub https://${pSRASourceS3BucketName}.s3.${pSRAS3BucketRegion}.${AWS::URLSuffix}/${pSRAStagingS3KeyPrefix}/submodules/aws-security-reference-architecture-examples/aws_sra_examples/modules/cloudtrail-org-module/templates/sra-cloudtrail-org-module-main.yaml
       Parameters:
         pSRASourceS3BucketName: aws-abi
         pSRAStagingS3KeyPrefix: cfn-abi-aws-cloudtrail
@@ -153,14 +153,14 @@ Metadata:
         Parameters:
           - pEnableGuardDuty
           - pAutoEnableS3Logs
-          - pAutoEnableK8sLogs
+          - pAutoEnableKubernetesAuditLogs
           - pAutoEnableMalwareProtection
     ParameterLabels:
       pEnableGuardDuty:
         default: Enable GuarDuty at Organization level
       pAutoEnableS3Logs:
         default: Auto Enable S3 Logs
-      pAutoEnableK8sLogs:
+      pAutoEnableKubernetesAuditLogs:
         default: Auto Enable kubernetes Logs
       pAutoEnableMalwareProtection:
         default: Auto Enable malware protection
@@ -178,7 +178,7 @@ Parameters:
     Default: 'true'
     Description: Auto enable S3 logs
     Type: String
-  pAutoEnableK8sLogs:
+  pAutoEnableKubernetesAuditLogs:
     AllowedValues:
       - 'true'
       - 'false'
@@ -203,14 +203,12 @@ Resources:
     DeletionPolicy: Delete
     UpdateReplacePolicy: Delete
     Properties:
-      TemplateURL: !Sub https://${pSRASourceS3BucketName}.s3.${pSRAS3BucketRegion}.${AWS::URLSuffix}/${pSRAStagingS3KeyPrefix}/submodules/cfn-abi-amazon-guardduty/templates/sra-guardduty-enable-in-org-ssm.yaml
+      TemplateURL: !Sub https://${pSRASourceS3BucketName}.s3.${pSRAS3BucketRegion}.${AWS::URLSuffix}/${pSRAStagingS3KeyPrefix}/submodules/aws-security-reference-architecture-examples/aws_sra_examples/modules/guarduty-org-module/templates/sra-guardduty-org-module-main.yaml
       Parameters:
         pAutoEnableS3Logs: !Ref pAutoEnableS3Logs
-        pAutoEnableK8sLogs: !Ref pAutoEnableK8sLogs
+        pAutoEnableKubernetesAuditLogs: !Ref pAutoEnableKubernetesAuditLogs
         pAutoEnableMalwareProtection: !Ref pAutoEnableMalwareProtection
         pSRASolutionName: !Ref pSRASolutionName
-        pSraTestingFlag: !Ref pSraTestingFlag
-        pSRAS3BucketRegion: !Ref pSRAS3BucketRegion
 ```
 
 **Next:** Choose [FAQs](/faqs/index.html).
