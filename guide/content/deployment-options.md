@@ -16,7 +16,7 @@ While we try to provide as many options as possible, we understand that we may n
 
 ## Launch ABI using CloudFormation Templates
 
-Launch the CloudFormation template provided as part <project-root>/templates/ in the Management Account of the organization.
+Launch the CloudFormation template provided as part <project-root>/templates/ in the **Management Account** of the organization.
 
 1. Login to your Management Account to deploy this ABI package.
 2. Choose [Launch Stack](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/new?stackName=launch-abi-sample-partner-integration&templateURL=https://aws-abi.s3.us-east-1.amazonaws.com/cfn-abi-aws-reference-guide/templates/abi-enable-partner1-securityhub-integration.yaml) and change the AWS Region to your AWS Control Tower home region.

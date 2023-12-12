@@ -37,12 +37,23 @@ When a project repository is created, it will be bootstrapped with the following
 ├── scripts ## CLEANUP UTILITIES, USED BY THE TEST FRAMEWORK
 │   ├── cleanup_config.json
 │   ├── cleanup_config.py
-├── submodules  ## A FOLDER WHERE PARTNERS CAN INITIALIZE ABI MODULES
-│   └── cfn-abi-aws-securityhub # THIS IS AN EXAMPLE. NOT CREATED BY DEFAULT.
-│       ├── README.md
-│       ├── lambda_functions
-│       ├── scripts
-│       └── templates
+├── submodules
+│   └── aws-security-reference-architecture-examples
+│       ├── AWS-SRA-KEY-INFO.md
+│       ├── CHANGELOG.md
+│       ├── LICENSE
+│       ├── README.md
+│       ├── aws_sra_examples
+│       │   ├── docs
+│       │   ├── easy_setup
+│       │   ├── modules
+│       │   │   ├── cloudtrail-org-module
+│       │   │   ├── guardduty-org-module
+│       │   │   └── securityhub-org-module
+│       │   ├── quick_setup
+│       │   ├── solutions
+│       │   └── utils
+│       └── pyproject.toml
 └── templates  ## FOLDER TO STORE INFRASTRUCTURE AS CODE TEMPLATES
     ├── abi-enable-partner1-securityhub-integration.yaml
     └── enable_integrations
