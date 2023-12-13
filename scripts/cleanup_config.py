@@ -292,7 +292,7 @@ def establish_remote_session(account):
 
     return result
 
-def get_log_archive_account(parameter_name='/sra/gd/control-tower/log-archive-account-id'):
+def get_log_archive_account(parameter_name='/sra/control-tower/log-archive-account-id'):
     '''
     Get log archive account ID
     '''
@@ -389,6 +389,7 @@ def delete_detector():
             for det_id in detector_ids:
                 print('Deleting GuardDuty Detector in %s', account['Id'])
                 gd_client.delete_detector(DetectorId=det_id)
+
 
 def list_cb_projects():
     '''

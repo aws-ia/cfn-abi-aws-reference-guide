@@ -15,10 +15,17 @@ Metadata:
           - pRepoURL
           - pRepoBranch
       - Label:
+          default: Landing Zone
+        Parameters:
+          - pControlTower
+          - pGovernedRegions
+          - pSecurityAccountId
+          - pLogArchiveAccountId
+          - pCreateAWSControlTowerExecutionRole
+      - Label:
           default: Partner Integration details
         Parameters:
           - pProductArn
-
       - Label:
           default: SecurityHub Configuration Properties
         Parameters:
@@ -79,6 +86,16 @@ Metadata:
         default: URL of the AWS SRA Repository
       pRepoBranch:
         default: A tag version to use with in the SRA repository
+      pControlTower:
+        default: pControlTower
+      pGovernedRegions:
+        default: pGovernedRegions
+      pSecurityAccountId:
+        default: pSecurityAccountId
+      pLogArchiveAccountId:
+        default: pLogArchiveAccountId
+      pCreateAWSControlTowerExecutionRole:
+        default: Create AWS Control Tower Execution Role
 Parameters:
   pRepoURL:
     Default: "https://github.com/aws-samples/aws-security-reference-architecture-examples.git"
@@ -177,6 +194,36 @@ Parameters:
     AllowedPattern: ^[a-z][a-z]-[a-z]*-[0-9]*$
     Type: String
     Default: us-east-1
+  pControlTower:
+    AllowedValues: ['true', 'false']
+    Default: 'true'
+    Description:
+      Indicates whether AWS Control Tower is deployed and being used for this AWS environment.
+    Type: String
+  pGovernedRegions:
+    AllowedPattern: '^(ct-regions)|((\b(?<!@)(af-south-1|ap-east-1|ap-northeast-1|ap-northeast-2|ap-northeast-3|ap-south-1|ap-south-2|ap-southeast-1|ap-southeast-2|ap-southeast-3|ap-southeast-4|ca-central-1|cn-north-1|cn-northwest-1|eu-central-1|eu-central-2|eu-north-1|eu-south-1|eu-south-2|eu-west-1|eu-west-2|eu-west-3|me-central-1|me-south-1|sa-east-1|us-east-1|us-east-2|us-gov-east-1|us-gov-west-1|us-west-1|us-west-2)\b,{0,1})*)$'
+    ConstraintDescription:
+      For AWS Control Tower, set to ct-regions (default).  If not using AWS Control Tower, specify comma separated list of regions (e.g. us-west-2,us-east-1,ap-south-1) in lower case.
+    Default: ct-regions
+    Description: AWS regions (comma separated) if not using AWS Control Tower (leave set to ct-regions for AWS Control Tower environments)
+    Type: String
+  pSecurityAccountId:
+    AllowedPattern: '^\d{12}$'
+    Default: 111111111111
+    ConstraintDescription: Must be 12 digits.
+    Description: AWS Account ID of the Security Tooling account (ignored for AWS Control Tower environments).
+    Type: String
+  pLogArchiveAccountId:
+    AllowedPattern: '^\d{12}$'
+    Default: 222222222222
+    ConstraintDescription: Must be 12 digits.
+    Description: AWS Account ID of the Log Archive account (ignored for AWS Control Tower environments).
+    Type: String
+  pCreateAWSControlTowerExecutionRole:
+    AllowedValues: ['true', 'false']
+    Default: 'true'
+    Description: Indicates whether the AWS Control Tower Execution role should be created. (AWS Control Tower landing zone must be deployed and 'pControlTower' must be set to 'true')
+    Type: String
 
 Resources:
   rSecurityHubEnableInOrg:
@@ -200,6 +247,11 @@ Resources:
         pLambdaLogLevel: !Ref pLambdaLogLevel
         pRegionLinkingMode: !Ref pRegionLinkingMode
         pSRAAlarmEmail: !Ref pSRAAlarmEmail
+        pControlTower: !Ref pControlTower
+        pGovernedRegions: !Ref pGovernedRegions
+        pSecurityAccountId: !Ref pSecurityAccountId
+        pLogArchiveAccountId: !Ref pLogArchiveAccountId
+        pCreateAWSControlTowerExecutionRole: !Ref pCreateAWSControlTowerExecutionRole
       Tags:
         - Key: sra-solution
           Value: !Ref pSRAStagingS3KeyPrefix
