@@ -4,7 +4,7 @@ title: AWS Built-in Overview
 description: 
 ---
 
-[AWS Built-in](https://aws.amazon.com/partners/built-in-partner-solutions/) (ABI) is a validated program awarded to ISV Partners to help customers deploy third-party software integrated with AWS native services. Target customers prefer to buy a turnkey solution versus installing, securing, and configuring AWS Native Services themselves in order to realize the full benefits of 3rd party software. Partner owned Built-in offerings provide deployment packages where partner solutions are integrated with AWS services via IaC, which reduces the time customers spend from weeks to minutes and helps increase customer efficiency by optimizing the time to deploy new initiatives.
+[AWS Built-in](https://aws.amazon.com/partners/built-in-partner-solutions/) (ABI) is a validated program awarded to ISV Partners to help customers deploy third-party software integrated with AWS native services. Customers prefer to buy a turnkey solution versus installing, securing, and configuring AWS native services themselves in order to realize the full benefits of third-party party software. Partner owned Built-in offerings provide deployment packages where partner solutions are integrated with AWS services via IaC. This reduces the time customers spend from weeks to hours and helps increase customer efficiency by optimizing the time to deploy new initiatives.
 
 AWS built-in partner solutions install, configure, and integrate with key foundational AWS services using a well-architected Modular Code Repository (MCR) in an automated deployment package validated by AWS experts, increasing time to value. This automated integration is independently verified by AWS and saves hours, days, or even weeks of vendor integration testing.
 
