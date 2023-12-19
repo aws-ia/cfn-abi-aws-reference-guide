@@ -17,6 +17,19 @@ tests:
       - us-east-1
     template: templates/abi-enable-partner1-securityhub-integration.yaml
 
+  launch-partner-solution-nonct:
+    parameters:
+      pSRASourceS3BucketName: $[taskcat_autobucket]
+      pSRAStagingS3Key: $[taskcat_project_name]
+      pProductArn: arn:aws:securityhub:$[taskcat_current_region]::product/cloud-custodian/cloud-custodian
+      pControlTower: "false"
+      pGovernedRegions: "us-east-1,us-west-1"
+      pSecurityAccountId: "809545598792"
+      pLogArchiveAccountId: "866786363886"
+      pCreateAWSControlTowerExecutionRole: "true"
+    regions:
+      - us-east-1
+    template: templates/abi-enable-partner1-securityhub-integration.yaml
 #  sample:
 #    parameters:
 #      Param1: 'Inputs to Stack'

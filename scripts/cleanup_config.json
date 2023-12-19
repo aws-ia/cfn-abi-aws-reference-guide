@@ -37,6 +37,10 @@
     },
     {
         "Type" : "SSM_PARAMETER",
+        "Filter" : "/sra/staging-s3-bucket-name"
+    },
+    {
+        "Type" : "SSM_PARAMETER",
         "Filter" : "/sra/control-tower/",
         "Account" : "log_account"
     },
@@ -44,10 +48,6 @@
         "Type" : "SSM_PARAMETER",
         "Filter" : "/sra/regions/",
         "Account" : "log_account"
-    },
-    {
-        "Type" : "SSM_PARAMETER",
-        "Filter" : "/sra/"
     },
     {
         "Type" : "S3_BUCKET",
