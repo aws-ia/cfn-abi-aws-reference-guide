@@ -30,8 +30,8 @@ run_test() {
     echo $AWS_DEFAULT_REGION
     unset AWS_DEFAULT_REGION
     echo $AWS_DEFAULT_REGION
-    taskcat test run -t $1
-}
+    taskcat test run -n -t $1
+    .project_automation/functional_tests/scoutsuite/scoutsuite.sh}
 
 acct_id=$(aws sts get-caller-identity --output text --query 'Account')
 

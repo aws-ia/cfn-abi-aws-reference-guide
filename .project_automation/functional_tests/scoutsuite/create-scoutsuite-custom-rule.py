@@ -40,7 +40,7 @@ def create_scoutsuite_custom_rule_file(file_name):
     if not os.path.exists(scoutsuite_cloudtrail_json_file_path):
         # If the file does not exist, create it   
         # Source path
-        src = '.project_automation/functional_tests/'+file_name
+        src = '.project_automation/functional_tests/scoutsuite/'+file_name
         copy_file(src, scoutsuite_cloudtrail_json_file_path)
     else:
         logging.info(f'File {scoutsuite_cloudtrail_json_file_path} already exists')
