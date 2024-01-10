@@ -81,7 +81,7 @@ def create_lambda_s3_presignedurl():
     '''Function that creates the Lambda function that generates S3 presigned URLs'''
 
     # Create the ZIP deployment package for Lambda
-    lambda_zipped_code = zip_folder_to_bytesio('./.project_automation/functional_tests/lambda_functions/source/lambda_s3_presignedurl')
+    lambda_zipped_code = zip_folder_to_bytesio('./.project_automation/functional_tests/scoutsuite/lambda_functions/source/lambda_s3_presignedurl')
     lambda_zipped_code.seek(0) # Reset the cursor of the BytesIO object to the beginning
 
     s3_client = session.client('s3')
@@ -95,7 +95,7 @@ def create_lambda_s3_presignedurl():
     # Use the session to create a client for CloudFormation
     cf_client = session.client('cloudformation')
 
-    with open('./.project_automation/functional_tests/lambda_s3_presignedurl.yaml', 'r') as file:
+    with open('./.project_automation/functional_tests/scoutsuite/lambda_s3_presignedurl.yaml', 'r') as file:
         template_body = file.read()
     # Check if the stack already exists
     try:
@@ -277,6 +277,8 @@ def upload_scoutsuite_results_zip_to_s3(scoutsuite_zip_file_path, zip_name):
         s3_file_with_key = time_key + '-' + zip_name
         # Upload the Scoutsuite results zip to an S3 bucket
         s3.upload_file(scoutsuite_zip_file_path, bucket_name, s3_file_with_key)
+        with open("scoutsuite_s3_filename.txt", "w") as file:
+            file.write(str(s3_file_with_key))   
 
     except ClientError as error:
         logging.exception (error)
