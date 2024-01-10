@@ -24,26 +24,26 @@ GD  = SESSION.client('guardduty')
 
 STACKSTATUS = [ 'ROLLBACK_FAILED', 'ROLLBACK_COMPLETE', 'DELETE_FAILED', 'DELETE_COMPLETE']
 
-def list_stacksets():
+def list_stacksets(context=CF):
     '''List all stacksets in the account'''
-    response = CF.list_stack_sets()
+    response = context.list_stack_sets()
     stacksets = response['Summaries']
     while response.get('NextToken'):
-        response = CF.list_stack_sets(NextToken=response['NextToken'])
+        response = context.list_stack_sets(NextToken=response['NextToken'])
         stacksets.extend(response['Summaries'])
     return stacksets
 
-def list_active_stackset_names():
+def list_active_stackset_names(context=CF):
     '''List all stackset names in the account'''
     cf_names = []
-    for cfn in list_stacksets():
+    for cfn in list_stacksets(context):
         if cfn['Status'] != 'DELETED':
             cf_names += [cfn['StackSetName']]
     return cf_names
 
-def list_stackset_names(filters=None):
+def list_stackset_names(context=CF, filters=None):
     '''List all stackset names in the account'''
-    cf_info = list_stacksets()
+    cf_info = list_stacksets(context)
     cf_names = []
     for cfn in cf_info:
         if cfn['Status'] != 'DELETED':
@@ -56,19 +56,19 @@ def list_stackset_names(filters=None):
 
     return cf_names
 
-def list_stackset_instances(stackset_name):
+def list_stackset_instances(context=CF, ss_name=None):
     '''List all stackset instances in the account'''
-    response = CF.list_stack_instances(StackSetName=stackset_name)
+    response = context.list_stack_instances(StackSetName=ss_name)
     stackinstances = response['Summaries']
     while response.get('NextToken'):
-        response = CF.list_stack_instances(StackSetName=stackset_name,
+        response = context.list_stack_instances(StackSetName=ss_name,
                                         NextToken=response['NextToken'])
         stackinstances.extend(response['Summaries'])
     return stackinstances
 
 def delete_stack_instances(stackset_name, retain_stacks=False):
     '''Delete all stackset instances in the account'''
-    stackinstances = list_stackset_instances(stackset_name)
+    stackinstances = list_stackset_instances(ss_name=stackset_name)
     for stackinstance in stackinstances:
         CF.delete_stack_instances(StackSetName=stackset_name,
                                 Regions=[stackinstance['Region']],
@@ -76,7 +76,7 @@ def delete_stack_instances(stackset_name, retain_stacks=False):
 
 def si_account_list(stackset_name):
     '''List all stackset instance accounts'''
-    stackinstances = list_stackset_instances(stackset_name)
+    stackinstances = list_stackset_instances(ss_name=stackset_name)
     stackinstance_names = []
     for stackinstance in stackinstances:
         stackinstance_names += [stackinstance['Account']]
@@ -84,7 +84,7 @@ def si_account_list(stackset_name):
 
 def si_region_list(stackset_name):
     '''List all stackset instance regions'''
-    stackinstances = list_stackset_instances(stackset_name)
+    stackinstances = list_stackset_instances(ss_name=stackset_name)
     stackinstance_regions = []
     for stackinstance in stackinstances:
         stackinstance_regions += [stackinstance['Region']]
@@ -121,7 +121,7 @@ def delete_all_stackinstances(stackset_name):
                                                  RetainStacks=False)
 
         loop = 1
-        while len(list_stackset_instances(stackset_name)) > 0 and loop < 30:
+        while len(list_stackset_instances(ss_name=stackset_name)) > 0 and loop < 30:
             sleep(10)
             loop += 1
 
@@ -129,7 +129,7 @@ def delete_all_stackinstances(stackset_name):
 
 def delete_stacksets(filters):
     '''Delete all stacksets created by CfCT solution in the account'''
-    cf_names = list_stackset_names(filters)
+    cf_names = list_stackset_names(filters=filters)
     for cf_name in cf_names:
         op_info = delete_all_stackinstances(cf_name)
         op_id = op_info['OperationId']
@@ -177,11 +177,11 @@ def delete_stack(filters='tCaT-'):
         stack_name = stack['StackName']
         stack_status = stack['StackStatus']
         if stack_name.startswith(filters) and stack_status != 'DELETE_COMPLETE':
-            print('Deleting stack: %s', stack_name)
+            print(f"Deleting stack: {stack_name}")
             CF.delete_stack(StackName=stack_name)
             wait = 1
             while list_stack_status_by_name(stack_name) not in STACKSTATUS and wait < 60:
-                print('Wait: %s, Stack: %s', stack_name, wait)
+                print(f"Wait: {wait}, Stack: {stack_name}")
                 sleep(10)
                 wait += 1
 
@@ -228,28 +228,33 @@ def delete_s3_buckets(item):
                 else:
                     raise exe
 
-def list_all_parameters(ssm_session=SSM):
+def list_all_parameters(context):
     ''''List all parameters in the account'''
-    response = ssm_session.describe_parameters()
+    response = context.describe_parameters()
     parameters = response['Parameters']
     while response.get('NextToken'):
-        response = ssm_session.describe_parameters(NextToken=response['NextToken'])
+        response = context.describe_parameters(NextToken=response['NextToken'])
         parameters.extend(response['Parameters'])
     return parameters
 
 def delete_parameters(item):
     '''Delete all parameters created in the account'''
 
+    print(f"Recieved item: {item}")
     filters = item['Filter']
     (ssm_session, account, target) = get_client_session(item, 'ssm')
-    print(f"SSM action on {target} with filters: {filters}")
+    print(f"SSM action on {account}/{target} with filters: {filters}")
 
-    parameters = list_all_parameters(ssm_session)
+    parameters = list_all_parameters(context=ssm_session)
     for parameter in parameters:
         param_name = parameter['Name']
+        print(f"param_name: {param_name}")
         if param_name.startswith(filters):
             print(f"..Deleting parameter {param_name}.")
+            res = ssm_session.get_parameter(Name=param_name)['Parameter']['ARN']
+            print(f"res: {res}")
             ssm_session.delete_parameter(Name=param_name)
+            print(f"..Deleted parameter {param_name}.")
 
 def get_temp_credentials(aws_account, role_name='AWSControlTowerExecution'):
     '''
@@ -288,11 +293,12 @@ def establish_remote_session(account):
             aws_secret_access_key=sts_creds['SecretAccessKey'],
             aws_session_token=sts_creds['SessionToken']
             )
+            print(f"Established session for {account} with {role}")
             break
 
     return result
 
-def get_log_archive_account(parameter_name='/sra/control-tower/log-archive-account-id'):
+def get_log_archive_account(parameter_name='/sra/gd/control-tower/log-archive-account-id'):
     '''
     Get log archive account ID
     '''
@@ -342,7 +348,7 @@ def delete_cw_logs(item):
 
     filters = item['Filter']
     (cw_session, account, target) = get_client_session(item, 'logs')
-    print(f"LOG GROUP action on {target} with filters: {filters}")
+    print(f"LOG GROUP action on {account}/{target} with filters: {filters}")
 
     log_groups = list_cw_lognames(context=cw_session)
     for log_group_name in log_groups:
@@ -390,7 +396,6 @@ def delete_detector():
                 print('Deleting GuardDuty Detector in %s', account['Id'])
                 gd_client.delete_detector(DetectorId=det_id)
 
-
 def list_cb_projects():
     '''
     List all CodeBuild projects
@@ -405,9 +410,7 @@ def list_cb_projects():
     return projects
 
 def delete_build_projects(filters='sra-codebuild-'):
-    '''
-    Delete the CodeBuild projects in all accounts in the organization in the current region
-    '''
+    ''' Delete the CodeBuild projects in all accounts in the organization in the current region '''
     projects = list_cb_projects()
     for project in projects:
         if project.startswith(filters):
@@ -415,35 +418,57 @@ def delete_build_projects(filters='sra-codebuild-'):
             cb_session = SESSION.client('codebuild')
             cb_session.delete_project(name=project)
 
-def get_account_info(ss_name='AWSControlTowerLoggingResources'):
-    '''
-    List first stack instances in a stackset
-    '''
-    result = None
+def get_log_account_info(context, ss_name='AWSControlTowerLoggingResources'):
+    ''' List first stack instances in a stackset '''
 
-    if ss_name in list_active_stackset_names():
-        instance = CF.list_stack_instances(StackSetName=ss_name)
+    cf_client = context.client('cloudformation')
+    if ss_name in list_active_stackset_names(cf_client):
+        instance = cf_client.list_stack_instances(StackSetName=ss_name)
         account_id = instance['Summaries'][0]['Account']
         for account in get_list_of_accounts():
             if account['Id'] == account_id:
                 account_name = account['Name']
-        result = {'AccountName': account_name, 'AccountID': account_id}
-    return result
+    else:
+        account_id = get_account_id('Log Archive')
+        account_name = 'LogArchive'
+
+    return {'AccountName': account_name, 'AccountID': account_id}
+
+def get_audit_account_info(context, ss_name='AWSControlTowerLoggingResources'):
+    '''
+    List first stack instances in a stackset
+    '''
+
+    cf_client = context.client('cloudformation')
+    if ss_name in list_active_stackset_names(cf_client):
+        instance = cf_client.list_stack_instances(StackSetName=ss_name)
+        account_id = instance['Summaries'][0]['Account']
+        for account in get_list_of_accounts():
+            if account['Id'] == account_id:
+                account_name = account['Name']
+    else:
+        account_id = get_account_id('Audit')
+        account_name = 'Audit'
+
+    return {'AccountName': account_name, 'AccountID': account_id}
 
 def get_client_session(item, client_name):
-    '''
-    Return a session for parent or child
-    '''
+    ''' Return a session for parent or child '''
 
     account = None
     if 'Account' in item:
         if item['Account'] in ACCOUNTS:
+            print(f"Using account {ACCOUNTS[item['Account']]} for {client_name}")
             account = get_account_id(ACCOUNTS[item['Account']])
+            print(f"Got account ID: {account}")
+
     if account:
+        print(f"Establishing session to : {account}")
         session = establish_remote_session(account)
         client_session = session.client(client_name)
         target = account
     else:
+        print(f"Using local session for {client_name}")
         client_session = boto3.client(client_name)
         target = STS.get_caller_identity()['Account']
 
@@ -456,7 +481,7 @@ def delete_iam_role(item):
 
     role_name = item['Filter']
     (iam_session, account, target) = get_client_session(item, 'iam')
-    print(f"IAM action on {target} with role_name: {role_name}")
+    print(f"IAM action on {account}/{target} with role_name: {role_name}")
 
     try:
         policies = iam_session.list_attached_role_policies(RoleName=role_name)
@@ -502,23 +527,25 @@ if __name__ == '__main__':
                                      description='Clear the configuration.')
     PARSER.add_argument("-C", "--config", default='cleanup_config.json',
                         help="Clear content from config")
+    PARSER.add_argument("-r", "--home_region", default='us-east-1',
+                        help="Control Tower home region")
 
     ARGS = PARSER.parse_args()
+    CT_HOME = ARGS.home_region
 
-    LOG_ACCT_INFO = get_account_info('AWSControlTowerLoggingResources')
-    AUDIT_ACCT_INFO = get_account_info('AWSControlTowerSecurityResources')
+    ACC_SESSION = boto3.session.Session(region_name=CT_HOME)
+    LOG_ACCT_NAME = 'Log Archive'
+    AUDIT_ACCT_NAME = 'Audit'
+
+    LOG_ACCT_INFO = get_log_account_info(context=ACC_SESSION)
+    AUDIT_ACCT_INFO = get_audit_account_info(ACC_SESSION)
+
     if LOG_ACCT_INFO:
         LOG_ACCT_NAME = LOG_ACCT_INFO['AccountName']
-    else:
-        LOG_ACCT_NAME = 'Log Archive'
-
     if AUDIT_ACCT_INFO:
         AUDIT_ACCT_NAME = AUDIT_ACCT_INFO['AccountName']
-    else:
-        AUDIT_ACCT_NAME = 'Audit'
 
     ACCOUNTS = {"log_account": LOG_ACCT_NAME, "audit": AUDIT_ACCT_NAME}
-    print('Recieved Account Info: %s', ACCOUNTS)
     CLEAR_CFG = ARGS.config
 
     if isfile(CLEAR_CFG):

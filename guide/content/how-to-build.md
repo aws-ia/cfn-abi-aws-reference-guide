@@ -19,7 +19,7 @@ The below example refers to steps followed to create the sample ABI project in t
     cd submodules
     git submodule add https://github.com/aws-samples/aws-security-reference-architecture-examples.git
     ```
-    Check here for [List of available ABI Modules](/available_modules/index.html).
+    Check here for [List of available ABI Modules](/things-to-know/index.html).
 
 3. Build and update the code as per your project needs. Follow the structure explained in the [Project Structure](/project-structure/index.html) section to organize your code. Below is an example of the directory structure for the sample ABI project in this repository:
 
