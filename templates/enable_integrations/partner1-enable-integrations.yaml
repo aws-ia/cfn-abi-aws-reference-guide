@@ -244,6 +244,10 @@ Resources:
             Action: s3:GetObject
             Principal: '*'
             Resource: !Sub arn:${AWS::Partition}:s3:::${rABIStagingS3Bucket}/*
+            Condition:
+              ArnLike:
+                aws:PrincipalArn:
+                  - !Sub arn:${AWS::Partition}:iam::*:role/tCaT-launch-partner-solution-*
           - Sid: DenyExternalPrincipals
             Effect: Deny
             Action: 's3:*'
