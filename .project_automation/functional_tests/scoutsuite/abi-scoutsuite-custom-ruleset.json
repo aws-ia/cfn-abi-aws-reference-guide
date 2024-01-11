@@ -1,5 +1,5 @@
 {
-    "about": "This is a simplified ruleset intended for use by CDO Securtiy Certifiers and is maintained by Amazon's CloudSecurity team.",
+    "about": "This is a simplified ruleset intended for use with AWS ABI test environments.",
     "rules": {
         "cloudtrail-not-configured.json": [
             {
