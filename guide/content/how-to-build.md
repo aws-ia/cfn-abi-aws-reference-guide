@@ -13,12 +13,18 @@ The below example refers to steps followed to create the sample ABI project in t
     gh repo fork https://github.com/aws-ia/cfn-abi-aws-reference-guide.git
     ```
 
+    | **Note:** If you are working on a repository created for you, replace `cfn-abi-aws-reference-guide.git` with the `your-repository-name.git`.|
+    | --- |
+
 2. Add the **required** ABI Modules as submodules to your repository (The securityhub repo is used as a submodule in the below example.). 
     ```
     mkdir submodules
     cd submodules
     git submodule add https://github.com/aws-samples/aws-security-reference-architecture-examples.git
+    # SKIP below step, if you are working on `your-repository-name.git`. This will update the submodules recursively for an existing repository.
+    git submodule update --init --recursive 
     ```
+
     Check here for [List of available ABI Modules](/things-to-know/index.html).
 
 3. Build and update the code as per your project needs. Follow the structure explained in the [Project Structure](/project-structure/index.html) section to organize your code. Below is an example of the directory structure for the sample ABI project in this repository:
@@ -80,21 +86,47 @@ The below example refers to steps followed to create the sample ABI project in t
     | **Note:** There is no need to package your lambda source. Taskcat will take care of it and upload it in the path of `lambda_functions/packages/<directory-name/lambda.zip>`. Please make references to your code as needed.|
     | --- |
 
+    | **Note:** If you are using `your-own-repository`, files in the above structure will vary slightly. However, the directory structure remains same.|
+    | --- |
+
+
 4. Run static tests locally.
 
     Execute the following tests locally  in your environment, the same set of tests are executed as part of the pipeline validations done with these tests:
 
     * **cfn-lint tests:**
 
+    * * Install cfn-lint
+
     ```
     pip3 install cfn-lint
     ```
 
+    * * Run cfn-lint
+
+    ```
+    find templates -name *.yaml -o -name *.yml -o -name *.json | xargs cfn-lint
+    ```
+
     * **taskcat lint:**
+
+    * * Install taskcat
 
     ```
     pip3 install taskcat
     ```
+
+    * * Update the *.taskcat.yaml* in the root of the project as needed. Refer to example in next step or the [taskcat documentation](https://aws-ia.github.io/taskcat/) for additional information.
+
+    * * Run taskcat
+
+    ```
+    taskcat lint
+    ```
+
+    * **cfn_nag tests:**
+
+    * * Follow instructions in the [cfn_nag documentation](https://github.com/stelligent/cfn_nag) to install cfn_nag.
 
     * **cfn-nag tests and add exceptions if needed**
     Refer to instruction in the cfn-nag documentation to [apply per-resource rule suppression](https://github.com/stelligent/cfn_nag#per-resource-rule-suppression). All suppressed rules should have a valid justification. Add detailed information under `reason:` in the `Metadata` section of the template to avoid delays in the review process.
