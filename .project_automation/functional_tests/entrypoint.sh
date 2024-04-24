@@ -51,11 +51,17 @@ acct_id=$(aws sts get-caller-identity --output text --query 'Account')
 
 #find ${PROJECT_PATH} -name lambda.zip -exec rm -rf {} \;
 
+echo "Downloading the ASH tool"
 git clone https://github.com/aws-samples/automated-security-helper.git /tmp/ash
 
 # Set the repo path in your shell for easier access
 export PATH=$PATH:/tmp/ash
 
+echo "Executing the ASH tool"
 ash --source-dir .
-cat aggregated_results.txt
+pwd
+ls -lrt
+
+cat ${PROJECT_PATH}/ash_output/aggregated_results.txt
+#cat aggregated_results.txt
 
