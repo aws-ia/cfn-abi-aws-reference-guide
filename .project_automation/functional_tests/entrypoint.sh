@@ -34,34 +34,34 @@ run_test() {
     .project_automation/functional_tests/scoutsuite/scoutsuite.sh
 }
 
+run_ash_tests() {
+    echo "Downloading the ASH tool"
+    git clone https://github.com/aws-samples/automated-security-helper.git /tmp/ash
+
+    # Set the repo path in your shell for easier access
+    export PATH=$PATH:/tmp/ash
+
+    echo "Executing the ASH tool"
+    ash --source-dir .
+    pwd
+    ls -lrt
+
+    cat ${PROJECT_PATH}/ash_output/aggregated_results.txt
+}
+
+run_ash_tests
+
 acct_id=$(aws sts get-caller-identity --output text --query 'Account')
 
-# if account id is xxxx do this
-# if [ "$acct_id" == ${NON_CT_ENV} ]; then
-#     run_test "launch-partner-solution-nonct"
-# else
-#    run_test "launch-partner-solution"
-# fi
+if account id is xxxx do this
+if [ "$acct_id" == ${NON_CT_ENV} ]; then
+    run_test "launch-partner-solution-nonct"
+else
+   run_test "launch-partner-solution"
+fi
 # Run taskcat e2e test
-#run_test "launch-partner-solution"
+run_test "launch-partner-solution"
 
-#run_test "launch-partner-solution-nonct"
+run_test "launch-partner-solution-nonct"
 
-## Executing ash tool
-
-#find ${PROJECT_PATH} -name lambda.zip -exec rm -rf {} \;
-
-echo "Downloading the ASH tool"
-git clone https://github.com/aws-samples/automated-security-helper.git /tmp/ash
-
-# Set the repo path in your shell for easier access
-export PATH=$PATH:/tmp/ash
-
-echo "Executing the ASH tool"
-ash --source-dir .
-pwd
-ls -lrt
-
-cat ${PROJECT_PATH}/ash_output/aggregated_results.txt
-#cat aggregated_results.txt
 
