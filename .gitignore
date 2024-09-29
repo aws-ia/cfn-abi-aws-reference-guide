@@ -161,6 +161,16 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+# JetBrains IDE
+.idea/
+
+.DS_Store
+
+.taskcat/
+taskcat_outputs/
+*.zip
+=======
+
 .DS_Store
 
 # Taskcat files
@@ -173,3 +183,12 @@ aggregated_results.txt
 
 # Package files
 lambda.zip
+
+# Visual Studio Code IDE
+.vscode/
+
+# Scoutsuite files
+/scoutsuite-report/
+scoutsuite-report.zip
+scoutsuite_sysout.txt
+scoutsuite_s3_filename.txt

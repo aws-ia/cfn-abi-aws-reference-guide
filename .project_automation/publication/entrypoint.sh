@@ -5,6 +5,9 @@
 PROJECT_PATH=${BASE_PATH}/project
 PROJECT_TYPE_PATH=${BASE_PATH}/projecttype
 
+echo "[STAGE: Publication]"
+VERSION=$(cat VERSION)
+echo $VERSION
 BRANCH=main
 EXISTING_GIT_VERSION="$(git tag -l)"
 HUGO_VERSION=$(hugo version)
@@ -15,10 +18,24 @@ VERSION=$(cat VERSION)
 
 BASE_URL="this would be the path to s3 bucket/${REPO_NAME}/"
 S3_URI="s3://aws-abi/guide/${REPO_NAME}/"
+<<<<<<< before updating
+=======
+
+
+if [[ $(echo $EXISTING_GIT_VERSION | grep $VERSION) ]]
+then
+  echo "version exists skipping release creation hint: Bump version in VERSION file"
+else
+  echo "creating new version"
+  gh release create ${VERSION} --target ${BRANCH} --generate-notes
+fi
+>>>>>>> after updating
 
 print_header() {
   printf "\n\n%s\n" "$*"
 }
+
+sed -i 's/href=.*$/href="#">/' ${PROJECT_PATH}/guide/layouts/partials/logo.html
 
 print_header 'Building site...'
 cd ${PROJECT_PATH}/guide
