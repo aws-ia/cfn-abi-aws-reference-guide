@@ -18,9 +18,6 @@ VERSION=$(cat VERSION)
 
 BASE_URL="this would be the path to s3 bucket/${REPO_NAME}/"
 S3_URI="s3://aws-abi/guide/${REPO_NAME}/"
-<<<<<<< before updating
-=======
-
 
 if [[ $(echo $EXISTING_GIT_VERSION | grep $VERSION) ]]
 then
@@ -29,7 +26,6 @@ else
   echo "creating new version"
   gh release create ${VERSION} --target ${BRANCH} --generate-notes
 fi
->>>>>>> after updating
 
 print_header() {
   printf "\n\n%s\n" "$*"
