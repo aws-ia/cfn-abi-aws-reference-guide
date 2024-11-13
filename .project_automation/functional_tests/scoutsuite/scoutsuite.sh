@@ -15,7 +15,7 @@ run_scoutsuite() {
     #Create Scoutsuite security scan custom rule
     python3 .project_automation/functional_tests/scoutsuite/create-scoutsuite-custom-rule.py
     # Execute Scoutsuite security scan
-    scout aws -r us-east-1 --ruleset .project_automation/functional_tests/scoutsuite/abi-scoutsuite-custom-ruleset.json --no-browser --max-rate 5 --max-workers 5 -f
+    scout aws -r us-east-1 --ruleset .project_automation/functional_tests/scoutsuite/abi-scoutsuite-custom-ruleset.json --no-browser --max-rate 1 --max-workers 1 -f
     # Upload Scoutsuite security scan results to S3 bucket named scoutsuite-results-aws-AWS-ACCOUNT-ID
     python3 .project_automation/functional_tests/scoutsuite/process-scoutsuite-report.py
     # Delete taskcat e2e test resources
