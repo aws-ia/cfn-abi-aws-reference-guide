@@ -42,6 +42,7 @@ if [ "$acct_id" == ${NON_CT_ENV} ]; then
 else
     run_test "launch-partner-solution"
 fi
+.project_automation/functional_tests/scoutsuite/scoutsuite.sh
 # Run taskcat e2e test
 #run_test "launch-partner-solution"
 
