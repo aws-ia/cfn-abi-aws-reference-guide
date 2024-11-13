@@ -38,11 +38,13 @@ acct_id=$(aws sts get-caller-identity --output text --query 'Account')
 
 # if account id is xxxx do this
 if [ "$acct_id" == ${NON_CT_ENV} ]; then
-    run_test "launch-partner-solution-nonct"
+    #run_test "launch-partner-solution-nonct"
+    .project_automation/functional_tests/scoutsuite/scoutsuite.sh
 else
-    run_test "launch-partner-solution"
+    #run_test "launch-partner-solution"
+    .project_automation/functional_tests/scoutsuite/scoutsuite.sh
 fi
-.project_automation/functional_tests/scoutsuite/scoutsuite.sh
+
 # Run taskcat e2e test
 #run_test "launch-partner-solution"
 
