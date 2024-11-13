@@ -37,6 +37,7 @@ run_test() {
 acct_id=$(aws sts get-caller-identity --output text --query 'Account')
 
 # if account id is xxxx do this
+aws sts get-caller-identity --debug
 if [ "$acct_id" == ${NON_CT_ENV} ]; then
     #run_test "launch-partner-solution-nonct"
     .project_automation/functional_tests/scoutsuite/scoutsuite.sh
